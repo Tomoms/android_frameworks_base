@@ -1082,8 +1082,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             resolver.registerContentObserver(LineageSettings.System.getUriFor(
                     LineageSettings.System.VOLUME_ANSWER_CALL), false, this,
                     UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.THREE_FINGER_GESTURE), false, this,
+            resolver.registerContentObserver(LineageSettings.System.getUriFor(
+                    LineageSettings.System.THREE_FINGER_GESTURE), false, this,
                     UserHandle.USER_ALL);
 
             updateSettings();
@@ -3354,8 +3354,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 }
             }
 
-            boolean threeFingerGesture = Settings.System.getIntForUser(resolver,
-                    Settings.System.THREE_FINGER_GESTURE, 0, UserHandle.USER_CURRENT) == 1;
+            boolean threeFingerGesture = LineageSettings.System.getIntForUser(resolver,
+                    LineageSettings.System.THREE_FINGER_GESTURE, 0, UserHandle.USER_CURRENT) == 1;
             if (mOPGestures != null) {
                 if (haveEnableGesture != threeFingerGesture) {
                     haveEnableGesture = threeFingerGesture;
