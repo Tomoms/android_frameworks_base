@@ -136,4 +136,7 @@
 
     <!-- Channel name for Battery notifications -->
     <string name="battery_notification_channel_tv">Battery warning</string>
+
+    <!-- Lineage clock -->
+    <string name="clock_title_lineage" translatable="false">LineageOS</string>
 </resources>
