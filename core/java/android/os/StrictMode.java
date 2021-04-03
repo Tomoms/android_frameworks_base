@@ -1533,12 +1533,8 @@ public final class StrictMode {
             if (isBundledSystemApp(ai)) {
                 builder.detectAll();
                 builder.penaltyDropBox();
-                if (SystemProperties.getBoolean(VISUAL_PROPERTY, false)) {
-                    builder.penaltyFlashScreen();
-                }
-                if (Build.IS_ENG) {
-                    builder.penaltyLog();
-                }
+                builder.penaltyLog();
+                builder.penaltyFlashScreen();
             }
         }
 
