@@ -1264,8 +1264,7 @@ public class Build {
      * @hide
      */
     @UnsupportedAppUsage
-    public static final boolean IS_DEBUGGABLE =
-            SystemProperties.getInt("ro.debuggable", 0) == 1;
+    public static final boolean IS_DEBUGGABLE = false;
 
     /** {@hide} */
     public static final boolean IS_ENG = "eng".equals(TYPE);
