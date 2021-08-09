@@ -87,6 +87,8 @@ public class Ringtone {
     })
     public @interface RingtoneMedia {}
 
+    private static final boolean LOGD = false;
+
     private static final String[] MEDIA_COLUMNS = new String[] {
         MediaStore.Audio.Media._ID,
         MediaStore.Audio.Media.TITLE
