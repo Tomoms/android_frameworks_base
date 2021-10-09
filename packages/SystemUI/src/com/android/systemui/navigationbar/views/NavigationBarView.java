@@ -86,6 +86,7 @@ import com.android.systemui.shared.system.QuickStepContract;
 import com.android.systemui.statusbar.phone.AutoHideController;
 import com.android.systemui.statusbar.phone.CentralSurfaces;
 import com.android.systemui.statusbar.phone.LightBarTransitionsController;
+import com.android.systemui.statusbar.policy.Offset;
 import com.android.systemui.utils.windowmanager.WindowManagerUtils;
 import com.android.wm.shell.back.BackAnimation;
 import com.android.wm.shell.pip.Pip;
@@ -174,6 +175,9 @@ public class NavigationBarView extends FrameLayout {
     private boolean mLauncherProxyEnabled;
     private boolean mShowSwipeUpUi;
     private UpdateActiveTouchRegionsCallback mUpdateActiveTouchRegionsCallback;
+
+    @Nullable
+    private ViewGroup mNavigationBarContents = null;
 
     private class NavTransitionListener implements TransitionListener {
         private boolean mBackTransitioning;
@@ -849,11 +853,30 @@ public class NavigationBarView extends FrameLayout {
         mContextualButtonGroup.setButtonVisibility(R.id.accessibility_button, visible);
     }
 
+    public void offsetNavBar(Offset offset) {
+        if (isGesturalMode(mNavBarMode)) {
+            final NavigationHandle handle = (NavigationHandle) getHomeHandle().getCurrentView();
+            if (handle != null) {
+                handle.setTranslationY(offset.getY());
+                handle.invalidate();
+            }
+            return;
+        }
+        if (mNavigationBarContents == null) {
+            return;
+        }
+        mNavigationBarContents.setTranslationX(offset.getX());
+        mNavigationBarContents.setTranslationY(offset.getY());
+        invalidate();
+    }
+
     @Override
     public void onFinishInflate() {
         super.onFinishInflate();
         mNavigationInflaterView = findViewById(R.id.navigation_inflater);
         mNavigationInflaterView.setButtonDispatchers(mButtonDispatchers);
+
+        mNavigationBarContents = (ViewGroup) findViewById(R.id.nav_buttons);
 
         updateOrientationViews();
         reloadNavIcons();
