@@ -79,4 +79,9 @@
 
     <!-- Whether to force notifications to take up the full width of the screen in landscape -->
     <bool name="config_fullWidthNotificationsInLandscape">false</bool>
+
+    <!-- Whether to enable burn-in protection for statusbar and navbar -->
+    <bool name="config_systemBarBurnInProtection">@*android:bool/config_enableBurnInProtection</bool>
+    <!-- Interval between subsequent shifting of statusbar and navbar contents, in seconds -->
+    <integer name="config_systemBarBurnInProtectionShiftInterval">60</integer>
 </resources>
