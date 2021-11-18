@@ -168,6 +168,7 @@ public abstract class Tile implements Parcelable {
      * Check whether tile has order.
      */
     public boolean hasOrder() {
+	if (mMetaData == null) return false;
         return mMetaData.containsKey(META_DATA_KEY_ORDER)
                 && mMetaData.get(META_DATA_KEY_ORDER) instanceof Integer;
     }
@@ -186,22 +187,24 @@ public abstract class Tile implements Parcelable {
         CharSequence title = null;
         ensureMetadataNotStale(context);
         final PackageManager packageManager = context.getPackageManager();
-        if (mMetaData.containsKey(META_DATA_PREFERENCE_TITLE)) {
-            if (mMetaData.containsKey(META_DATA_PREFERENCE_TITLE_URI)) {
-                // If has as uri to provide dynamic title, skip loading here. UI will later load
-                // at tile binding time.
-                return null;
-            }
-            if (mMetaData.get(META_DATA_PREFERENCE_TITLE) instanceof Integer) {
-                try {
-                    final Resources res =
-                            packageManager.getResourcesForApplication(mComponentPackage);
-                    title = res.getString(mMetaData.getInt(META_DATA_PREFERENCE_TITLE));
-                } catch (PackageManager.NameNotFoundException | Resources.NotFoundException e) {
-                    Log.w(TAG, "Couldn't find info", e);
+        if (mMetaData != null) {
+            if (mMetaData.containsKey(META_DATA_PREFERENCE_TITLE)) {
+                if (mMetaData.containsKey(META_DATA_PREFERENCE_TITLE_URI)) {
+                    // If has as uri to provide dynamic title, skip loading here. UI will later load
+                    // at tile binding time.
+                    return null;
                 }
-            } else {
-                title = mMetaData.getString(META_DATA_PREFERENCE_TITLE);
+                if (mMetaData.get(META_DATA_PREFERENCE_TITLE) instanceof Integer) {
+                    try {
+                        final Resources res =
+                            packageManager.getResourcesForApplication(mComponentPackage);
+                        title = res.getString(mMetaData.getInt(META_DATA_PREFERENCE_TITLE));
+                    } catch (PackageManager.NameNotFoundException | Resources.NotFoundException e) {
+                        Log.w(TAG, "Couldn't find info", e);
+                    }
+                } else {
+                    title = mMetaData.getString(META_DATA_PREFERENCE_TITLE);
+                }
             }
         }
         // Set the preference title by the component if no meta-data is found
