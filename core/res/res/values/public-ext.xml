@@ -21,5 +21,13 @@
         <public name="config_first_party_app_source_package_name"/>
         <!-- @hide -->
         <public name="config_systemTelephonyPackage"/>
+        <!-- @hide -->
+        <public name="notification_channel_other_users"/>
+        <!-- @hide -->
+        <public name="notification_channel_other_users_description"/>
+        <!-- @hide -->
+        <public name="other_users_notification_title"/>
+        <!-- @hide -->
+        <public name="other_users_notification_switch_user_action"/>
     </staging-public-group>
 </resources>
