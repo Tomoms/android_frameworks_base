@@ -322,7 +322,7 @@ public final class SystemUiDeviceConfigFlags {
      * (float) How far, in inches, must a continuous swipe travel vertically to be intentional.
      */
     public static final String BRIGHTLINE_FALSING_DISTANCE_VERTICAL_SWIPE_THRESHOLD_IN =
-            "brightline_falsing_distance_horizontal_swipe_threshold_in";
+            "brightline_falsing_distance_vertical_swipe_threshold_in";
 
     /**
      * (float) Percentage of swipe with the proximity sensor covered that triggers a higher
@@ -341,7 +341,7 @@ public final class SystemUiDeviceConfigFlags {
      * (float) Angle, in radians, that a swipe can vary from vertical and sill be intentional.
      */
     public static final String BRIGHTLINE_FALSING_DIAGONAL_VERTICAL_ANGLE_RANGE =
-            "brightline_falsing_diagonal_horizontal_angle_range";
+            "brightline_falsing_diagonal_vertical_angle_range";
 
     /**
      * (float) Distance, in inches, that a swipe is allowed to vary in the horizontal direction for
