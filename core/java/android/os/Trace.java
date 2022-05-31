@@ -145,12 +145,7 @@ public final class Trace {
      */
     @UnsupportedAppUsage
     public static boolean isTagEnabled(long traceTag) {
-        if (!Build.IS_DEBUGGABLE) {
-            return false;
-        }
-
-        long tags = nativeGetEnabledTags();
-        return (tags & traceTag) != 0;
+        return false;
     }
 
     /**
