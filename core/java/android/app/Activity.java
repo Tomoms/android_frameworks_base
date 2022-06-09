@@ -3460,11 +3460,11 @@ public class Activity extends ContextThemeWrapper
      */
     public void setActionBar(@Nullable Toolbar toolbar) {
         final ActionBar ab = getActionBar();
-        if (ab instanceof WindowDecorActionBar) {
+        /*if (ab instanceof WindowDecorActionBar) {
             throw new IllegalStateException("This Activity already has an action bar supplied " +
                     "by the window decor. Do not request Window.FEATURE_ACTION_BAR and set " +
                     "android:windowActionBar to false in your theme to use a Toolbar instead.");
-        }
+        }*/
 
         // If we reach here then we're setting a new action bar
         // First clear out the MenuInflater to make sure that it is valid for the new Action Bar
