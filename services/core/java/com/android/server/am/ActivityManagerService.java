@@ -20849,6 +20849,12 @@ public class ActivityManagerService extends IActivityManager.Stub
             return index >= 0 && !mMediaProjectionTokenMap.valueAt(index).isEmpty();
         }
     }
+    
+    public boolean shouldSkipBootCompletedBroadcastForPackage(ApplicationInfo info) {
+        return getAppOpsManager().checkOpNoThrow(
+                AppOpsManager.OP_RUN_ANY_IN_BACKGROUND,
+                info.uid, info.packageName) != AppOpsManager.MODE_ALLOWED;
+    }
 
     /**
      * Deal with binder transactions to frozen apps.
