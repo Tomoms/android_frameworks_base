@@ -915,7 +915,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             resolver.registerContentObserver(LineageSettings.System.getUriFor(
                     LineageSettings.System.CLICK_PARTIAL_SCREENSHOT), false, this,
                     UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
+            resolver.registerContentObserver(LineageSettings.System.getUriFor(
                     LineageSettings.System.THREE_FINGER_GESTURE), false, this,
                     UserHandle.USER_ALL);
 
@@ -2565,8 +2565,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 }
             }
 
-            boolean threeFingerGesture = Settings.System.getIntForUser(resolver,
-                    Settings.System.THREE_FINGER_GESTURE, 0, UserHandle.USER_CURRENT) == 1;
+            boolean threeFingerGesture = LineageSettings.System.getIntForUser(resolver,
+                    LineageSettings.System.THREE_FINGER_GESTURE, 0, UserHandle.USER_CURRENT) == 1;
             if (mOPGestures != null) {
                 if (haveEnableGesture != threeFingerGesture) {
                     haveEnableGesture = threeFingerGesture;
