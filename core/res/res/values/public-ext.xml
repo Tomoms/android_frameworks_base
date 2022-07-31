@@ -53,5 +53,7 @@
         <public name="permgroupdesc_network"/>
         <!-- @hide -->
         <public name="aerr_show_details"/>
+        <!-- @hide -->
+        <public name="bluetooth_auto_off_attribution_label"/>
     </staging-public-group>
 </resources>
