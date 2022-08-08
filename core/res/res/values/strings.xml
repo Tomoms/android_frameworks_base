@@ -6724,4 +6724,8 @@ ul.</string>
 
     <!-- Fingerprint loe notification string -->
     <string name="fingerprint_loe_notification_msg">Your fingerprints can no longer be recognized. Set up Fingerprint Unlock again.</string>
+
+    <!-- Button that opens the screen with details of an application error -->
+    <string name="aerr_show_details">Show details</string>
+    <java-symbol type="string" name="aerr_show_details" />
 </resources>
