@@ -17,12 +17,8 @@
 package com.android.internal.util.custom;
 
 import android.app.Application;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Build;
 import android.util.Log;
-
-import com.android.internal.R;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -40,19 +36,9 @@ public final class PixelPropsUtils {
     private static final String PROCESS_GMS_UNSTABLE = PACKAGE_GMS + ".unstable";
     private static final String PROCESS_GMS_PERSISTENT = PACKAGE_GMS + ".persistent";
 
-    private static final Resources mResources;
-    static {
-        // make sure we only use the english strings
-        Resources res = Resources.getSystem();
-        Configuration conf = res.getConfiguration();
-        conf.setLocale(Locale.ENGLISH);
-        res.updateConfiguration(conf, null);
-        mResources = res;
-    }
-
-    private static final String build_device = mResources.getString(R.string.build_device);
-    private static final String build_fp = mResources.getString(R.string.build_fp);
-    private static final String build_model = mResources.getString(R.string.build_model);
+    private static final String build_device = "redfin";
+    private static final String build_fp = "google/redfin/redfin:14/UP1A.231005.007/10754064:user/release-keys";
+    private static final String build_model = "Pixel 5";
 
     private static final HashMap<String, String> certifiedProps = new HashMap<>(Map.of(
         "ID", "OPM2.171019.029",
