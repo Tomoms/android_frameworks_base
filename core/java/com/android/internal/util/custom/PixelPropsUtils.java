@@ -55,6 +55,7 @@ public class PixelPropsUtils {
     private static final Map<String, ArrayList<String>> propsToKeep;
     private static final String[] extraPackagesToChange = {
             "com.android.chrome",
+            "com.android.vending",
             "com.breel.wallpapers20"
     };
 
@@ -91,6 +92,7 @@ public class PixelPropsUtils {
     private static ArrayList<String> allProps = new ArrayList<>(Arrays.asList("BRAND", "MANUFACTURER", "DEVICE", "PRODUCT", "MODEL", "FINGERPRINT"));
 
     private static volatile boolean sIsGms = false;
+    private static volatile boolean sIsFinsky = false;
 
     static {
         propsToKeep = new HashMap<>();
@@ -144,6 +146,9 @@ public class PixelPropsUtils {
         if (packageName.equals(PACKAGE_GMS) &&
                 processName.equals(PACKAGE_GMS + ".unstable")) {
             sIsGms = true;
+        } else if (packageName.equals("com.android.vending")) {
+            sIsFinsky = true;
+            return;
         }
         boolean isPixelDevice = Arrays.asList(pixelCodenames).contains(SystemProperties.get(DEVICE));
         if (!isPixelDevice && 
@@ -201,6 +206,11 @@ public class PixelPropsUtils {
     public static void onEngineGetCertificateChain() {
         // Check stack for SafetyNet
         if (sIsGms && isCallerSafetyNet()) {
+            throw new UnsupportedOperationException();
+        }
+
+        // Check stack for PlayIntegrity
+        if (sIsFinsky) {
             throw new UnsupportedOperationException();
         }
     }
