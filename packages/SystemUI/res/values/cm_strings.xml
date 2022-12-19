@@ -138,4 +138,6 @@
 
     <!-- Adaptive brightness tile -->
     <string name="quick_settings_autobrightness_label">Adaptive brightness</string>
+    <!-- Screenshot Tile -->
+    <string name="screenshot_long_press">Long press - partial screenshot</string>
 </resources>
