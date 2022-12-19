@@ -108,4 +108,7 @@
     <!-- Navigation bar dpad -->
     <string name="accessibility_dpad_left">Cursor left</string>
     <string name="accessibility_dpad_right">Cursor right</string>
+
+    <!-- Screenshot Tile -->
+    <string name="screenshot_long_press">Long press - selected region</string>
 </resources>
