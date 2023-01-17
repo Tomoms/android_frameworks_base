@@ -109,4 +109,7 @@
 
     <!-- Keyboard shortcut helper dialog -->
     <color name="ksh_key_item_color">@*android:color/system_on_surface_variant_dark</color>
+
+    <!-- Status bar avatar backgroud chip color -->
+    <color name="statusbar_avatar_bg">@color/material_dynamic_neutral20</color>
 </resources>
