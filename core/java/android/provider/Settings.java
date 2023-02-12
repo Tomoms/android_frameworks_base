@@ -6965,6 +6965,15 @@ public final class Settings {
      * or by calling the "put" methods that this class contains.
      */
     public static final class Secure extends NameValueTable {
+        // It's important to define setting names here, since readability of settings is determined
+        // by using Java reflection on members of this class.
+        /** @see android.provider.Settings#getPublicSettingsForClass */
+        // ExtSettings BEGIN
+
+
+
+        // ExtSettings END
+
         // NOTE: If you add new settings here, be sure to add them to
         // com.android.providers.settings.SettingsProtoDumpUtil#dumpProtoSecureSettingsLocked.
 
@@ -13075,6 +13084,15 @@ public final class Settings {
      * explicitly modify through the system UI or specialized APIs for those values.
      */
     public static final class Global extends NameValueTable {
+        // It's important to define setting names here, since readability of settings is determined
+        // by using Java reflection on members of this class.
+        /** @see android.provider.Settings#getPublicSettingsForClass */
+        // ExtSettings BEGIN
+
+
+
+        // ExtSettings END
+
         // NOTE: If you add new settings here, be sure to add them to
         // com.android.providers.settings.SettingsProtoDumpUtil#dumpProtoGlobalSettingsLocked.
 
