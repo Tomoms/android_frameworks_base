@@ -77,7 +77,7 @@ public class AirplaneModeTile extends SecureQSTile<BooleanState> {
             BroadcastDispatcher broadcastDispatcher,
             Lazy<ConnectivityManager> lazyConnectivityManager,
             GlobalSettings globalSettings,
-            KeyguardStateController keyguardStateController
+            KeyguardStateController keyguardStateController,
             UserTracker userTracker
     ) {
         super(host, backgroundLooper, mainHandler, falsingManager, metricsLogger,
