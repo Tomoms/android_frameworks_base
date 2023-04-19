@@ -193,6 +193,9 @@ cc_defaults {
             ldflags: ["-fsplit-machine-functions"],
         }
     },
+    cflags: [
+        "-O3",
+    ],
 }
 
 // ------------------------
