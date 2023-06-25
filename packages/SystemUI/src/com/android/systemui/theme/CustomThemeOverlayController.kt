@@ -71,13 +71,13 @@ class CustomThemeOverlayController @Inject constructor(
     systemSettings: SystemSettings,
     wallpaperManager: WallpaperManager,
     userManager: UserManager,
+    configurationController: ConfigurationController,
     deviceProvisionedController: DeviceProvisionedController,
     userTracker: UserTracker,
     dumpManager: DumpManager,
     featureFlags: FeatureFlags,
     @Main resources: Resources,
-    wakefulnessLifecycle: WakefulnessLifecycle,
-    configurationController: ConfigurationController
+    wakefulnessLifecycle: WakefulnessLifecycle
 ) : ThemeOverlayController(
     context,
     broadcastDispatcher,
@@ -89,13 +89,13 @@ class CustomThemeOverlayController @Inject constructor(
     systemSettings,
     wallpaperManager,
     userManager,
+    configurationController,
     deviceProvisionedController,
     userTracker,
     dumpManager,
     featureFlags,
     resources,
     wakefulnessLifecycle,
-    configurationController,
 ), Tunable {
     private lateinit var cond: Zcam.ViewingConditions
     private lateinit var targets: MaterialYouTargets
