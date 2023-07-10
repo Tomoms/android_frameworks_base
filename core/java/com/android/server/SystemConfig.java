@@ -1529,8 +1529,6 @@ public class SystemConfig {
             }
         }
 
-        addFeature("grapheneos.package_update_preserves_package_enabled_setting", 0);
-
         for (String featureName : mUnavailableFeatures) {
             removeFeature(featureName);
         }
