@@ -68,4 +68,9 @@ class ActivityThreadHooks {
             ContactScopes.maybeEnable(ctx, state);
         }
     }
+
+    static Service instantiateService(String className) {
+        Service res = null;
+        return res;
+    }
 }
