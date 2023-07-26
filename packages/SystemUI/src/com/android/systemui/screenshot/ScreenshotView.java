@@ -153,6 +153,7 @@ public class ScreenshotView extends FrameLayout implements
     private OverlayActionChip mDeleteChip;
     private OverlayActionChip mScrollChip;
     private OverlayActionChip mQuickShareChip;
+    private OverlayActionChip mDeleteChip;
 
     private UiEventLogger mUiEventLogger;
     private ScreenshotViewCallback mCallbacks;
@@ -717,7 +718,8 @@ public class ScreenshotView extends FrameLayout implements
         chips.add(mEditChip);
 
         mDeleteChip.setContentDescription(mContext.getString(R.string.screenshot_delete_label));
-        mDeleteChip.setIcon(Icon.createWithResource(mContext, R.drawable.ic_screenshot_delete), true);
+        mDeleteChip.setIcon(Icon.createWithResource(mContext, R.drawable.ic_screenshot_delete),
+                true);
         mDeleteChip.setOnClickListener(v -> {
             mDeleteChip.setIsPending(true);
             mEditChip.setIsPending(false);
