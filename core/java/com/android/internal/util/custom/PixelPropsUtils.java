@@ -155,7 +155,6 @@ public class PixelPropsUtils {
                 || packageName.equalsIgnoreCase("com.google.android.apps.restore")) {
             final String processName = Application.getProcessName();
             if (processName.toLowerCase().contains("unstable")
-                    || processName.toLowerCase().contains("pixelmigrate")
                     || processName.toLowerCase().contains("instrumentation")) {
                 sIsGms = true;
 
@@ -180,11 +179,17 @@ public class PixelPropsUtils {
 
                 dlog("Spoofing build for GMS");
                 // Alter build parameters to pixel 2 for avoiding hardware attestation enforcement
-                setBuildField("DEVICE", "walleye");
-                setBuildField("FINGERPRINT", "google/walleye/walleye:8.1.0/OPM1.171019.011/4448085:user/release-keys");
-                setBuildField("MODEL", "Pixel 2");
-                setBuildField("PRODUCT", "walleye");
-                setVersionField("DEVICE_INITIAL_SDK_INT", Build.VERSION_CODES.O);
+                setPropValue("BRAND", "google");
+                setPropValue("PRODUCT", "walleye");
+                setPropValue("MODEL", "Pixel 2");
+                setPropValue("MANUFACTURER", "Google");
+                setPropValue("DEVICE", "walleye");
+                setPropValue("FINGERPRINT", "google/walleye/walleye:8.1.0/OPM1.171019.011/4448085:user/release-keys");
+                setPropValue("ID", "OPM1.171019.011");
+                setPropValue("TYPE", "user");
+                setPropValue("TAGS", "release-keys");
+                setVersionField("DEVICE_INITIAL_SDK_INT", Build.VERSION_CODES.O_MR1);
+                setVersionFieldString("SECURITY_PATCH", "2017-12-05");
                 return true;
             }
         }
@@ -256,36 +261,27 @@ public class PixelPropsUtils {
         }
     }
 
-    private static void setBuildField(String key, String value) {
+    private static void setVersionField(String key, Object value) {
         try {
-            // Unlock
-            Field field = Build.class.getDeclaredField(key);
+            if (DEBUG) Log.d(TAG, "Defining prop " + key + " to " + value.toString());
+            Field field = Build.VERSION.class.getDeclaredField(key);
             field.setAccessible(true);
-
-            // Edit
             field.set(null, value);
-
-            // Lock
             field.setAccessible(false);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            Log.e(TAG, "Failed to spoof Build." + key, e);
+            Log.e(TAG, "Failed to set prop " + key, e);
         }
     }
 
-    private static void setVersionField(String key, Object value) {
+    private static void setVersionFieldString(String key, String value) {
         try {
-            // Unlock
-            if (DEBUG) Log.d(TAG, "Defining version field " + key + " to " + value.toString());
+            if (DEBUG) Log.d(TAG, "Defining prop " + key + " to " + value);
             Field field = Build.VERSION.class.getDeclaredField(key);
             field.setAccessible(true);
-
-            // Edit
             field.set(null, value);
-
-            // Lock
             field.setAccessible(false);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            Log.e(TAG, "Failed to set version field " + key, e);
+            Log.e(TAG, "Failed to set prop " + key, e);
         }
     }
 
