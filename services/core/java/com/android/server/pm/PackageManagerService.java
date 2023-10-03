@@ -8176,4 +8176,9 @@ public class PackageManagerService implements PackageSender, TestUtilityService 
                 PackageManager.VERSION_CODE_HIGHEST, UserHandle.USER_SYSTEM,
                 PackageManager.DELETE_ALL_USERS, true /*removedBySystem*/);
     }
+
+    @NonNull
+    public Context getContext() {
+        return mContext;
+    }
 }
