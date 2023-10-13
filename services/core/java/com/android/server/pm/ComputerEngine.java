@@ -2624,6 +2624,11 @@ public class ComputerEngine implements Computer {
                 return false;
             }
         }
+
+        if (UserHandle.getAppId(callingUid) == Process.PHONE_UID) {
+            return false;
+        }
+
         // if we're in an isolated process, get the real calling UID
         if (Process.isIsolated(callingUid)) {
             callingUid = getIsolatedOwner(callingUid);
@@ -2770,6 +2775,9 @@ public class ComputerEngine implements Computer {
             return true;
         }
         if (isSystemOrRootOrShell(callingUid)) {
+            return false;
+        }
+        if (UserHandle.getAppId(callingUid) == Process.PHONE_UID) {
             return false;
         }
         final ArraySet<PackageStateInternal> packageStates =
