@@ -27,6 +27,7 @@ import android.os.UserHandle;
 import android.util.ArrayMap;
 import android.util.apk.ApkSignatureVerifier;
 
+import com.android.server.art.model.DexoptParams;
 import com.android.server.pm.Computer;
 import com.android.server.pm.PackageManagerLocal;
 import com.android.server.pm.PackageManagerService;
@@ -293,5 +294,21 @@ public class PackageManagerLocalImpl implements PackageManagerLocal {
 
             return mFilteredPackageStates;
         }
+    }
+
+    @Nullable
+    @Override
+    public String maybeOverrideCompilerFilter(@NonNull String origFilter, @NonNull AndroidPackage pkg,
+                                              @NonNull Object dexoptParamsR) {
+        final String TAG = "maybeOverrideCompilerFilter";
+        final String speedFilter = "speed";
+
+        if (speedFilter.equals(origFilter)) {
+            return null;
+        }
+
+        var dexoptParams = (DexoptParams) dexoptParamsR;
+
+        return null;
     }
 }
