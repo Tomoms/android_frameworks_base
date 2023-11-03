@@ -532,7 +532,6 @@ class ActivityStarter {
             avoidMoveToFront = request.avoidMoveToFront;
             allowPendingRemoteAnimationRegistryLookup
                     = request.allowPendingRemoteAnimationRegistryLookup;
-            filterCallingUid = request.filterCallingUid;
             originatingPendingIntent = request.originatingPendingIntent;
             allowBalExemptionForSystemProcess = request.allowBalExemptionForSystemProcess;
             freezeScreen = request.freezeScreen;
@@ -1683,9 +1682,7 @@ class ActivityStarter {
      */
     static int computeResolveFilterUid(int customCallingUid, int actualCallingUid,
             int filterCallingUid) {
-        return filterCallingUid != UserHandle.USER_NULL
-                ? filterCallingUid
-                : (customCallingUid >= 0 ? customCallingUid : actualCallingUid);
+        return customCallingUid >= 0 ? customCallingUid : actualCallingUid;
     }
 
     /**
@@ -3575,11 +3572,6 @@ class ActivityStarter {
 
     ActivityStarter setIgnoreTargetSecurity(boolean ignoreTargetSecurity) {
         mRequest.ignoreTargetSecurity = ignoreTargetSecurity;
-        return this;
-    }
-
-    ActivityStarter setFilterCallingUid(int filterCallingUid) {
-        mRequest.filterCallingUid = filterCallingUid;
         return this;
     }
 
