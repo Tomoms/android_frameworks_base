@@ -2068,6 +2068,7 @@ public class NetworkPolicyManagerService extends INetworkPolicyManager.Stub {
                     if (subscriberId != null) {
                         ensureActiveCarrierPolicyAL(subId, subscriberId);
                         maybeUpdateCarrierPolicyCycleAL(subId, subscriberId);
+                        Slog.e("TOMRADIO", "1 subscribedId is " + subscriberId);
                     } else {
                         Slog.wtf(TAG, "Missing subscriberId for subId " + subId);
                     }
@@ -2219,6 +2220,7 @@ public class NetworkPolicyManagerService extends INetworkPolicyManager.Stub {
             final String subscriberId = tmSub.getSubscriberId();
             if (!TextUtils.isEmpty(subscriberId)) {
                 subIdToSubscriberId.put(tmSub.getSubscriptionId(), subscriberId);
+                Slog.e("TOMRADIO", "2 subscribedId is " + subscriberId);
             } else {
                 Slog.wtf(TAG, "Missing subscriberId for subId " + tmSub.getSubscriptionId());
             }
@@ -4028,6 +4030,7 @@ public class NetworkPolicyManagerService extends INetworkPolicyManager.Stub {
                 if (subscriberId != null) {
                     ensureActiveCarrierPolicyAL(subId, subscriberId);
                     maybeUpdateCarrierPolicyCycleAL(subId, subscriberId);
+                    Slog.e("TOMRADIO", "3 subscribedId is " + subscriberId);
                 } else {
                     Slog.wtf(TAG, "Missing subscriberId for subId " + subId);
                 }
