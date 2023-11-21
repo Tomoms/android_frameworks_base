@@ -5369,6 +5369,7 @@ public class ActivityManagerService extends IActivityManager.Stub
                             // Defer the full Pss collection as the system is really busy now.
                             mHandler.postDelayed(() -> {
                                 synchronized (mProcLock) {
+                                    mOomAdjuster.mCachedAppOptimizer.compactAllSystem();
                                     mAppProfiler.requestPssAllProcsLPr(
                                             SystemClock.uptimeMillis(), true, false);
                                 }
