@@ -41,14 +41,14 @@ public final class PixelPropsUtils {
     private static final String build_model = "Pixel 5";
 
     private static final HashMap<String, String> certifiedProps = new HashMap<>(Map.of(
-        "ID", "NRD90M",
-        "BRAND", "NVIDIA",
-        "MANUFACTURER", "NVIDIA",
-        "MODEL", "SHIELD Android TV",
-        "PRODUCT", "foster_e",
-        "DEVICE", "foster",
-        "SECURITY_PATCH", "2018-01-05",
-        "FINGERPRINT", "NVIDIA/foster_e/foster:7.0/NRD90M/2427173_1038.2788:user/release-keys"
+      "ID", "LRX22G",
+      "BRAND", "Xiaomi",
+      "MANUFACTURER", "Xiaomi",
+      "DEVICE", "ferrari",
+      "FINGERPRINT", "Xiaomi/ferrari/ferrari:5.0.2/LRX22G/V6.4.10.0.LXIMICB:user/release-keys",
+      "MODEL", "Mi 4i",
+      "PRODUCT", "ferrari",
+      "SECURITY_PATCH", "2019-08-05"
     ));
 
     private static final HashMap<String, String> buildProps = new HashMap<>(Map.of(
