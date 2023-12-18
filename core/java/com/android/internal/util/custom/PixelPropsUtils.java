@@ -35,7 +35,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.internal.R;
-import com.android.internal.util.evolution.EvolutionUtils;
+import com.android.internal.util.custom.MiscUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -218,7 +218,7 @@ public class PixelPropsUtils {
     public static void spoofBuildGms(Context context) {
         String packageName = "com.goolag.pif";
 
-        if (!EvolutionUtils.isPackageInstalled(context, packageName)) {
+        if (!MiscUtils.isPackageInstalled(context, packageName)) {
             Log.e(TAG, "'" + packageName + "' is not installed.");
             return;
         }
