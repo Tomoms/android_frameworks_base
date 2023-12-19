@@ -299,7 +299,11 @@ public class PixelPropsUtils {
                     setVersionFieldString("SECURITY_PATCH", selectedDeviceProps[11]);
                     setVersionFieldInt("DEVICE_INITIAL_SDK_INT", Integer.parseInt(selectedDeviceProps[12]));
 
-                    Settings.System.putString(context.getContentResolver(), Settings.System.PPU_SPOOF_BUILD_GMS_ARRAY, selectedArrayName);
+                    try {
+                        Settings.System.putString(context.getContentResolver(), Settings.System.PPU_SPOOF_BUILD_GMS_ARRAY, selectedArrayName);
+                    } catch (Exception e) {
+                        Log.w(TAG, "GMS package not authorized to alter system settings. If you are using microG, disregard this warning.");
+                    }
                 } else {
                     Log.e(TAG, "No device arrays found.");
                 }
