@@ -276,7 +276,11 @@ public class PixelPropsUtils {
                     dlog("TAGS: " + (selectedDeviceProps[10].isEmpty() ? "release-keys" : selectedDeviceProps[10]));
                     setPropValue("TAGS", selectedDeviceProps[10].isEmpty() ? "release-keys" : selectedDeviceProps[10]);
 
-                    Settings.System.putString(context.getContentResolver(), Settings.System.PPU_SPOOF_BUILD_GMS_ARRAY, selectedArrayName);
+                    try {
+                        Settings.System.putString(context.getContentResolver(), Settings.System.PPU_SPOOF_BUILD_GMS_ARRAY, selectedArrayName);
+                    } catch (Exception e) {
+                        Log.w(TAG, "GMS package not authorized to alter system settings. If you are using microG, disregard this warning.");
+                    }
                 } else {
                     Log.e(TAG, "No device arrays found.");
                 }
