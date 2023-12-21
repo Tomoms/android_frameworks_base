@@ -322,5 +322,7 @@ public class SecureSettings {
         Settings.Secure.SELECTED_SPELL_CHECKER_SUBTYPE,
         Settings.Secure.HDR_BRIGHTNESS_ENABLED,
         Settings.Secure.HDR_BRIGHTNESS_BOOST_LEVEL,
+        // Evolution X additions
+        Settings.Secure.VPN_ENFORCE_DNS,
     };
 }
