@@ -17,6 +17,7 @@
 package com.android.systemui.statusbar.pipeline.mobile.domain.interactor
 
 import android.content.Context
+import android.util.Log
 import com.android.settingslib.SignalIcon.MobileIconGroup
 import com.android.settingslib.graph.SignalDrawable
 import com.android.settingslib.mobile.MobileIconCarrierIdOverrides
@@ -306,6 +307,7 @@ class MobileIconInteractorImpl(
                 level,
                 isInService,
             ) { level, isInService ->
+                Log.w("SIGNAL-DBG", "computing level. isInService = $isInService")
                 if (isInService) level else 0
             }
             .stateIn(scope, SharingStarted.WhileSubscribed(), 0)

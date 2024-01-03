@@ -13688,7 +13688,11 @@ public class TelephonyManager {
         try {
             ITelephony service = getITelephony();
             if (service != null) {
-                return service.isDataEnabledForReason(subId, reason);
+                Log.e("SIGNAL-DBG", "isDataEnabledForReason: service is not null, good!");
+                Log.e("SIGNAL-DBG", "using subId " + subId + " and reason = " + reason);
+                boolean ret = service.isDataEnabledForReason(subId, reason);
+                Log.e("SIGNAL-DBG", "isDataEnabledForReason returning " + ret);
+                return ret;
             } else {
                 throw new IllegalStateException("telephony service is null.");
             }
@@ -13696,6 +13700,7 @@ public class TelephonyManager {
             Log.e(TAG, "Telephony#isDataEnabledForReason RemoteException", ex);
             ex.rethrowFromSystemServer();
         }
+        Log.e("SIGNAL-DBG", "isDataEnabledForReason returning false, default. Not good.");
         return false;
     }
 
@@ -13833,6 +13838,7 @@ public class TelephonyManager {
         } catch (RemoteException e) {
             Log.e(TAG, "Error isDataConnectionAllowed", e);
         }
+        Log.e("SIGNAL-DBG", "isDataConnectionAllowed returning " + retVal);
         return retVal;
     }
 

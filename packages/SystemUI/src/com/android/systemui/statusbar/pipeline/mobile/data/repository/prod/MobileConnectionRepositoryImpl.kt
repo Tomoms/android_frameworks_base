@@ -36,6 +36,7 @@ import android.telephony.TelephonyManager.ERI_ON
 import android.telephony.TelephonyManager.EXTRA_SUBSCRIPTION_ID
 import android.telephony.TelephonyManager.NETWORK_TYPE_UNKNOWN
 import android.telephony.TelephonyManager.UNKNOWN_CARRIER_ID
+import android.util.Log
 import com.android.settingslib.Utils
 import com.android.systemui.broadcast.BroadcastDispatcher
 import com.android.systemui.common.coroutine.ConflatedCallbackFlow.conflatedCallbackFlow
@@ -174,6 +175,7 @@ class MobileConnectionRepositoryImpl(
                         }
 
                         override fun onDataEnabledChanged(enabled: Boolean, reason: Int) {
+                            Log.e("SIGNAL-DBG", "onDataEnabledChanged called with new value: $enabled and reason $reason")
                             logger.logOnDataEnabledChanged(enabled, subId)
                             trySend(CallbackEvent.OnDataEnabledChanged(enabled))
                         }
@@ -362,6 +364,7 @@ class MobileConnectionRepositoryImpl(
 
     override val dataEnabled = run {
         val initial = telephonyManager.isDataConnectionAllowed
+        Log.e("SIGNAL-DBG", "initial value for dataEnabled: $initial")
         callbackEvents
             .mapNotNull { it.onDataEnabledChanged }
             .map { it.enabled }
