@@ -35,6 +35,7 @@ import android.os.UserHandle;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -356,25 +357,38 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver {
         setContentDescription(contentDescription);
     }
 
+        /**
+         * Status bar battery %
+         * 0: Hide the battery percentage
+         * 1: Display the battery percentage inside the icon
+         * 2: Display the battery percentage next to the icon
+         */
     void updateShowPercent() {
         final boolean showing = mBatteryPercentView != null;
+        Log.e("CLOCK-DBG", "at the moment is showing: " + showing);
         // TODO(b/140051051)
         final int showBatteryPercent = LineageSettings.System.getIntForUser(
                 getContext().getContentResolver(), STATUS_BAR_SHOW_BATTERY_PERCENT, 0,
                 UserHandle.USER_CURRENT);
+        Log.e("CLOCK-DBG", "setting says we need to show: " + showBatteryPercent);
         final boolean drawPercentInside = mShowPercentMode == MODE_DEFAULT &&
                 showBatteryPercent == 1;
         final boolean drawPercentOnly = mShowPercentMode == MODE_ESTIMATE ||
                 showBatteryPercent == 2;
+        Log.e("CLOCK-DBG", "drawPercentOnly: " + drawPercentOnly);
+        Log.e("CLOCK-DBG", "drawPercentInside: " + drawPercentInside);
         boolean shouldShow =
                 (drawPercentOnly && (!drawPercentInside || isCharging()) ||
                 getBatteryStyle() == BATTERY_STYLE_TEXT);
         shouldShow = shouldShow && !mBatteryStateUnknown;
+        Log.e("CLOCK-DBG", "shouldShow: " + shouldShow);
 
         if (shouldShow) {
+            Log.e("CLOCK-DBG", "shouldShow is true");
             mAccessorizedDrawable.showPercent(false);
             mCircleDrawable.setShowPercent(false);
             if (!showing) {
+                Log.e("CLOCK-DBG", "showing is false");
                 mBatteryPercentView = loadPercentView();
                 if (mPercentageStyleId != 0) { // Only set if specified as attribute
                     mBatteryPercentView.setTextAppearance(mPercentageStyleId);
@@ -395,7 +409,8 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver {
                         res.getDimensionPixelSize(R.dimen.battery_level_padding_start), 0, 0, 0);
             }
 
-        } else {
+        } else { // we must not show the separate TextView
+            Log.e("CLOCK-DBG", "shouldShow is false");
             mAccessorizedDrawable.showPercent(drawPercentInside);
             mCircleDrawable.setShowPercent(drawPercentInside);
             if (showing) {

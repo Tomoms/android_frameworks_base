@@ -25,6 +25,7 @@ import android.provider.Settings;
 import android.telephony.SubscriptionManager;
 import android.util.ArrayMap;
 import android.util.IndentingPrintWriter;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -422,6 +423,7 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
 
     /** Initializes views related to the notification icon area. */
     public void initNotificationIconArea() {
+        Log.e("CLOCK-DBG", "Initializing notification icon area");
         ViewGroup notificationIconArea = mStatusBar.findViewById(R.id.notification_icon_area);
         mNotificationIconAreaInner =
                 mNotificationIconAreaController.getNotificationInnerAreaView();
@@ -545,8 +547,10 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
 
         // Hide notifications if the disable flag is set or we have an ongoing call.
         if (disableNotifications || hasOngoingCall) {
+            Log.e("CLOCK-DBG", "hiding notification area. disableNotifications is " + disableNotifications);
             hideNotificationIconArea(animate);
         } else {
+            Log.e("CLOCK-DBG", "showing notification area.");
             showNotificationIconArea(animate);
         }
 

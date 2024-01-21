@@ -20,6 +20,7 @@ import android.content.Context;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -64,6 +65,7 @@ public class ClockController {
                     mDenyListed = StatusBarIconController.getIconHideList(mContext,
                             Settings.Secure.getString(mContext.getContentResolver(),
                                     StatusBarIconController.ICON_HIDE_LIST)).contains("clock");
+                    Log.e("CLOCK-DBG", "clock must be hidden because of list: " + mDenyListed);
                 } else if (statusBarClock.equals(uri)) {
                     mClockPosition = LineageSettings.System.getInt(mContext.getContentResolver(),
                             LineageSettings.System.STATUS_BAR_CLOCK, CLOCK_POSITION_LEFT);
@@ -91,15 +93,20 @@ public class ClockController {
     }
 
     private void updateActiveClock() {
+        Log.e("CLOCK-DBG", "updating active clock");
         mContext.getMainExecutor().execute(() -> {
             mActiveClock.setClockVisibleByUser(false);
+            Log.e("CLOCK-DBG", "disabled clock " + mActiveClock.getViewName());
             removeDarkReceiver();
             mActiveClock = getClock();
+            Log.e("CLOCK-DBG", "got clock: active clock position is " + mClockPosition);
             mActiveClock.setClockVisibleByUser(true);
+            Log.e("CLOCK-DBG", "enabled clock " + mActiveClock.getViewName());
             addDarkReceiver();
 
             // Override any previous setting
             mActiveClock.setClockVisibleByUser(!mDenyListed);
+            Log.e("CLOCK-DBG", "force disabled clock " + mActiveClock.getViewName() + "? is denied " + mDenyListed);
         });
     }
 
