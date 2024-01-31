@@ -390,16 +390,27 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver {
             if (!showing) {
                 Log.e("CLOCK-DBG", "showing is false");
                 mBatteryPercentView = loadPercentView();
+                Log.e("BAT-DBG", "upon inflating the height is " + mBatteryPercentView.getHeight());
+                Log.e("BAT-DBG", "upon inflating the top padding is " + mBatteryPercentView.getPaddingTop());
                 if (mPercentageStyleId != 0) { // Only set if specified as attribute
                     mBatteryPercentView.setTextAppearance(mPercentageStyleId);
                 }
                 float fontHeight = mBatteryPercentView.getPaint().getFontMetricsInt(null);
+                Log.e("BAT-DBG", "the font height is " + fontHeight);
+                int adj = (int) Math.ceil(fontHeight);
+                Log.e("BAT-DBG", "the rounded height is " + adj);
                 mBatteryPercentView.setLineHeight(TypedValue.COMPLEX_UNIT_PX, fontHeight);
+                Log.e("BAT-DBG", "after setLineHeight the height is " + mBatteryPercentView.getHeight());
+                Log.e("BAT-DBG", "after setLineHeight the top padding is " + mBatteryPercentView.getPaddingTop());
                 if (mTextColor != 0) mBatteryPercentView.setTextColor(mTextColor);
                 updatePercentText();
+                mBatteryPercentView.setIncludeFontPadding(false);
                 addView(mBatteryPercentView, new LayoutParams(
                         LayoutParams.WRAP_CONTENT,
                         (int) Math.ceil(fontHeight)));
+                mBatteryPercentView.setIncludeFontPadding(false);
+                Log.e("BAT-DBG", "finally the height is " + mBatteryPercentView.getHeight());
+                Log.e("BAT-DBG", "finally the top padding is " + mBatteryPercentView.getPaddingTop());
             }
             if (getBatteryStyle() == BATTERY_STYLE_TEXT) {
                 mBatteryPercentView.setPaddingRelative(0, 0, 0, 0);
