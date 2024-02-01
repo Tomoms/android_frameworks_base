@@ -691,6 +691,14 @@ public class Environment {
     }
 
     /**
+     * Returns location of resources cache directory.
+     * {@hide}
+     */
+    public static File getResourceCacheDirectory() {
+        return new File(getDataDirectory(), "resource-cache");
+    }
+
+    /**
      * Return locations where media files (such as ringtones, notification
      * sounds, or alarm sounds) may be located on internal storage. These are
      * typically indexed under {@link MediaStore#VOLUME_INTERNAL}.

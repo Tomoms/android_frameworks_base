@@ -1467,7 +1467,8 @@ public class PackageManagerServiceUtils {
 
         // The base directory for the package parser cache lives under /data/system/.
         final File cacheBaseDir = Environment.getPackageCacheDirectory();
-        if (!FileUtils.createDir(cacheBaseDir)) {
+        final File resCacheBaseDir = Environment.getResourceCacheDirectory();
+        if (!FileUtils.createDir(cacheBaseDir) || !FileUtils.createDir(resCacheBaseDir)) {
             return null;
         }
 
@@ -1477,12 +1478,19 @@ public class PackageManagerServiceUtils {
         final String cacheName = FORCE_PACKAGE_PARSED_CACHE_ENABLED ? "debug"
                 : PackagePartitions.FINGERPRINT;
 
-        // Reconcile cache directories, keeping only what we'd actually use.
+        // Reconcile package cache directories, keeping only what we'd actually use.
         for (File cacheDir : FileUtils.listFilesOrEmpty(cacheBaseDir)) {
             if (!isUpgrade && Objects.equals(cacheName, cacheDir.getName())) {
                 Slog.d(TAG, "Keeping known cache " + cacheDir.getName());
             } else {
                 Slog.d(TAG, "Destroying unknown cache " + cacheDir.getName());
+                FileUtils.deleteContentsAndDir(cacheDir);
+            }
+        }
+
+        if (isUpgrade) {
+            // Always wipe resource cache directory after an upgrade.
+            for (File cacheDir : FileUtils.listFilesOrEmpty(resCacheBaseDir)) {
                 FileUtils.deleteContentsAndDir(cacheDir);
             }
         }
