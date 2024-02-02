@@ -217,6 +217,12 @@ public class KeyguardServiceDelegate {
     public void onShowingStateChanged(boolean showing) {
         mKeyguardReportedState.showing = showing;
         mCallback.onShowingChanged();
+
+        if (showing) {
+            System.gc();
+            System.runFinalization();
+            System.gc();
+        }
     }
 
     /**
