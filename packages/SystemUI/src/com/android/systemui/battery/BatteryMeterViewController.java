@@ -27,7 +27,6 @@ import android.os.HandlerExecutor;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.ArraySet;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -254,7 +253,6 @@ public class BatteryMeterViewController extends ViewController<BatteryMeterView>
                 mView.updatePercentText();
             }
             if (TextUtils.equals(uri.getLastPathSegment(), STATUS_BAR_BATTERY_STYLE)) {
-                Log.e("CLOCK-DBG", "SettingObserver for battery noticed change in " + uri.getLastPathSegment());
                 mView.updateBatteryStyle();
             }
         }

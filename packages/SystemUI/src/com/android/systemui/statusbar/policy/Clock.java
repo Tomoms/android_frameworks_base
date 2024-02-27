@@ -41,7 +41,6 @@ import android.text.format.DateFormat;
 import android.text.style.CharacterStyle;
 import android.text.style.RelativeSizeSpan;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.Display;
@@ -144,14 +143,6 @@ public class Clock extends TextView implements
 
     public Clock(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
-    }
-
-    public String getViewName() {
-        if (this.getId() == View.NO_ID) {
-            return "no-id";
-        } else {
-            return this.getResources().getResourceName(this.getId());
-        }
     }
 
     public Clock(Context context, AttributeSet attrs, int defStyle) {
@@ -369,7 +360,6 @@ public class Clock extends TextView implements
 
     private void updateClockVisibility() {
         boolean visible = shouldBeVisible();
-        Log.e("CLOCK-DBG", "clock " + this.getViewName() + " visibility updating to " + visible);
         int visibility = visible ? View.VISIBLE : View.GONE;
         super.setVisibility(visibility);
     }
