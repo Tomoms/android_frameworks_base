@@ -34,7 +34,6 @@ import android.telephony.Annotation.NetworkType;
 import android.telephony.NetworkRegistrationInfo.Domain;
 import android.telephony.NetworkRegistrationInfo.NRState;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.android.telephony.Rlog;
 
@@ -1776,9 +1775,7 @@ public class ServiceState implements Parcelable {
 
         // For legacy mode device, or AP-assisted mode device but IWLAN is out of service, use
         // the RAT from cellular.
-        Log.e("IWLAN-DBG", "isIwlanPreferred: " + mIsIwlanPreferred);
         if (iwlanRegInfo == null || !iwlanRegInfo.isInService()) {
-            Log.e("IWLAN-DBG", "legacy mode or AP-assisted mode but out of service");
             return (wwanRegInfo != null) ? wwanRegInfo.getAccessNetworkTechnology()
                     : TelephonyManager.NETWORK_TYPE_UNKNOWN;
         }
@@ -1787,13 +1784,11 @@ public class ServiceState implements Parcelable {
         // use the RAT from IWLAN service is cellular is out of service, or when both are in service
         // and any APN type of data is preferred on IWLAN.
         if (!wwanRegInfo.isInService() || mIsIwlanPreferred) {
-            Log.e("IWLAN-DBG", "iwlan preferred but out of service");
             return iwlanRegInfo.getAccessNetworkTechnology();
         }
 
         // If both cellular and IWLAN are in service, but no APN is preferred on IWLAN, still use
         // the RAT from cellular.
-        Log.e("IWLAN-DBG", "using rat from cellular");
         return wwanRegInfo.getAccessNetworkTechnology();
     }
 
@@ -2190,7 +2185,6 @@ public class ServiceState implements Parcelable {
      * @hide
      */
     public void setIwlanPreferred(boolean isIwlanPreferred) {
-        Log.e("IWLAN-DBG", "setting mIsIwlanPreferred = " + isIwlanPreferred);
         mIsIwlanPreferred = isIwlanPreferred;
     }
 
