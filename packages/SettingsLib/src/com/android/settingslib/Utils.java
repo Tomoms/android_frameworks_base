@@ -535,17 +535,14 @@ public class Utils {
      */
     public static boolean isInService(ServiceState serviceState) {
         if (serviceState == null) {
-            Log.e("SIGNAL-DBG", "isInService returning false because null");
             return false;
         }
         int state = getCombinedServiceState(serviceState);
         if (state == ServiceState.STATE_POWER_OFF
                 || state == ServiceState.STATE_OUT_OF_SERVICE
                 || state == ServiceState.STATE_EMERGENCY_ONLY) {
-            Log.e("SIGNAL-DBG", "isInService returning false properly");
             return false;
         } else {
-            Log.e("SIGNAL-DBG", "isInService returning true");
             return true;
         }
     }
@@ -558,7 +555,6 @@ public class Utils {
      */
     public static int getCombinedServiceState(ServiceState serviceState) {
         if (serviceState == null) {
-            Log.e("SIGNAL-DBG", "getCombinedServiceState returning outofservice because null");
             return ServiceState.STATE_OUT_OF_SERVICE;
         }
 
@@ -575,11 +571,9 @@ public class Utils {
         if (state == ServiceState.STATE_OUT_OF_SERVICE
                 || state == ServiceState.STATE_EMERGENCY_ONLY) {
             if (dataState == ServiceState.STATE_IN_SERVICE && isNotInIwlan(serviceState)) {
-                Log.e("SIGNAL-DBG", "getCombinedServiceState returning In Service");
                 return ServiceState.STATE_IN_SERVICE;
             }
         }
-        Log.e("SIGNAL-DBG", "getCombinedServiceState returning " + state);
         return state;
     }
 
@@ -609,7 +603,6 @@ public class Utils {
                 NetworkRegistrationInfo.DOMAIN_PS,
                 AccessNetworkConstants.TRANSPORT_TYPE_WLAN);
         if (networkRegWlan == null) {
-            Log.e("SIGNAL-DBG", "isNotInIwlan returning true, i.e. it IS NOT iwlan");
             return true;
         }
 
@@ -617,7 +610,6 @@ public class Utils {
                 == NetworkRegistrationInfo.REGISTRATION_STATE_HOME)
                 || (networkRegWlan.getRegistrationState()
                 == NetworkRegistrationInfo.REGISTRATION_STATE_ROAMING);
-        Log.e("SIGNAL-DBG", "isNotInIwlan returning " + !isInIwlan);
         return !isInIwlan;
     }
 
