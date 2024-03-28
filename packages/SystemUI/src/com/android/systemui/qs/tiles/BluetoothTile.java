@@ -111,7 +111,7 @@ public class BluetoothTile extends SecureQSTile<BooleanState> {
     }
 
     @Override
-    protected void handleClick(@Nullable View view) {
+    protected void handleClick(@Nullable View view, boolean keyguardShowing) {
         if (checkKeyguard(view, keyguardShowing)) {
           return;
         }
