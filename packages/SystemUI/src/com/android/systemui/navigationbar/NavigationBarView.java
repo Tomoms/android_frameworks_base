@@ -1098,7 +1098,6 @@ public class NavigationBarView extends FrameLayout {
         updateIcons(mTmpLastConfiguration);
         updateRecentsIcon();
         updateCurrentRotation();
-        mEdgeBackGestureHandler.onConfigurationChanged(mConfiguration);
         if (uiCarModeChanged || mTmpLastConfiguration.densityDpi != mConfiguration.densityDpi
                 || mTmpLastConfiguration.getLayoutDirection() != mConfiguration.getLayoutDirection()) {
             // If car mode or density changes, we need to reset the icons.
