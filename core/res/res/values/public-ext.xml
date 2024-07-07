@@ -91,5 +91,7 @@
         <public name="notif_memtag_crash_title"/>
         <!-- @hide -->
         <public name="notif_hmalloc_crash_title"/>
+        <!-- @hide -->
+        <public name="deprecated_abi_message_grapheneos"/>
     </staging-public-group>
 </resources>
