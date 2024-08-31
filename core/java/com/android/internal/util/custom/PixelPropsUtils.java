@@ -60,7 +60,7 @@ public class PixelPropsUtils {
     private static final String SPOOF_PIXEL_PROPS = "persist.sys.pphooks.enable";
 
     private static final String TAG = PixelPropsUtils.class.getSimpleName();
-    private static final String DEVICE = "ro.evolution.device";
+    private static final String DEVICE = "ro.lineage.device";
     private static final boolean DEBUG = SystemProperties.getBoolean("persist.sys.pihooks.debug", false);
 
     private static final String sDeviceModel =
