@@ -1983,6 +1983,10 @@ UnflaggedApi: android.nfc.cardemulation.NfcFServiceInfo#CONTENTS_FILE_DESCRIPTOR
     New API must be flagged with @FlaggedApi: field android.nfc.cardemulation.NfcFServiceInfo.CONTENTS_FILE_DESCRIPTOR
 UnflaggedApi: android.nfc.cardemulation.NfcFServiceInfo#PARCELABLE_WRITE_RETURN_VALUE:
     New API must be flagged with @FlaggedApi: field android.nfc.cardemulation.NfcFServiceInfo.PARCELABLE_WRITE_RETURN_VALUE
+UnflaggedApi: android.os.BaseBundle#getBoolean2(String):
+    New API must be flagged with @FlaggedApi: method android.os.BaseBundle.getBoolean2(String)
+UnflaggedApi: android.os.BaseBundle#getNumber(String):
+    New API must be flagged with @FlaggedApi: method android.os.BaseBundle.getNumber(String)
 UnflaggedApi: android.os.BugreportParams#BUGREPORT_MODE_ONBOARDING:
     New API must be flagged with @FlaggedApi: field android.os.BugreportParams.BUGREPORT_MODE_ONBOARDING
 UnflaggedApi: android.provider.Settings#ACTION_APP_PERMISSIONS_SETTINGS:
