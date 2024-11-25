@@ -2,7 +2,6 @@ package com.android.settingslib.users;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
-import android.ext.KnownSystemPackages;
 
 import androidx.annotation.NonNull;
 
