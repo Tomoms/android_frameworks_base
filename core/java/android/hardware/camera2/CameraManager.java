@@ -733,6 +733,7 @@ public final class CameraManager {
     @NonNull
     public CameraCharacteristics getCameraCharacteristics(@NonNull String cameraId)
             throws CameraAccessException {
+        Log.w("TOM", "getCameraCharacteristics 1 with id = " + cameraId);
         return getCameraCharacteristics(cameraId, getRotationOverride(mContext));
     }
 
@@ -758,6 +759,7 @@ public final class CameraManager {
     @NonNull
     public CameraCharacteristics getCameraCharacteristics(@NonNull String cameraId,
             boolean overrideToPortrait) throws CameraAccessException {
+        Log.w("TOM", "getCameraCharacteristics 2 with id = " + cameraId);
         return getCameraCharacteristics(cameraId,
                 overrideToPortrait
                         ? ICameraService.ROTATION_OVERRIDE_OVERRIDE_TO_PORTRAIT
@@ -767,6 +769,7 @@ public final class CameraManager {
     @NonNull
     private CameraCharacteristics getCameraCharacteristics(@NonNull String cameraId,
             int rotationOverride) throws CameraAccessException {
+        Log.w("TOM", "getCameraCharacteristics 3 with id = " + cameraId);
         CameraCharacteristics characteristics = null;
         if (CameraManagerGlobal.sCameraServiceDisabled) {
             throw new IllegalArgumentException("No cameras available on device");
@@ -795,6 +798,7 @@ public final class CameraManager {
             }
         }
         registerDeviceStateListener(characteristics);
+        Log.w("TOM", "getCameraCharacteristics 3 returning " + characteristics);
         return characteristics;
     }
 
@@ -2573,17 +2577,20 @@ public final class CameraManager {
 
         private boolean shouldHideCamera(int currentDeviceId, int devicePolicy,
                 DeviceCameraInfo info) {
+            Log.w(TAG, "TOM shoudlHideCamera called");
             if (!android.companion.virtualdevice.flags.Flags.cameraDeviceAwareness()) {
                 // Don't hide any cameras if the device-awareness feature flag is disabled.
+                Log.w(TAG, "TOM good 1");
                 return false;
             }
 
             if (devicePolicy == DEVICE_POLICY_DEFAULT && info.mDeviceId == DEVICE_ID_DEFAULT) {
+                Log.w(TAG, "TOM good 2");
                 // Don't hide default-device cameras for a default-policy virtual device.
                 return false;
             }
-
-            return currentDeviceId != info.mDeviceId;
+            Log.w(TAG, "TOM fallthrough: returning true (bad) if " + currentDeviceId + " != " + info.mDeviceId);
+            return false;
         }
 
         private static boolean cameraStatusesContains(CameraStatus[] cameraStatuses,
@@ -2702,6 +2709,10 @@ public final class CameraManager {
                 cameraIds = extractCameraIdListLocked(deviceId, devicePolicy);
             }
             sortCameraIds(cameraIds);
+            Log.w("TOM", "getCameraIdList returning array of len " + cameraIds.length);
+            for (var id : cameraIds) {
+                Log.w("TOM", id);
+            }
             return cameraIds;
         }
 
