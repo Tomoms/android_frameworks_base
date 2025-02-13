@@ -56,7 +56,7 @@ import java.util.concurrent.Executor;
 public class Smart5gService extends SystemService {
 
     private static final String TAG = "Smart5gService";
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     // from org.codeaurora.telephony.utils.EnhancedRadioCapabilityResponse
     private static final int NETWORK_TYPE_NR_NSA = 20; // = TelephonyManager.NETWORK_TYPE_NR
@@ -87,8 +87,6 @@ public class Smart5gService extends SystemService {
     private int[] mActiveSubIds = new int[0];
     private int mDefaultDataSubId = INVALID_SUBSCRIPTION_ID;
     
-    private boolean mIsScreenOff;
-
     private final ContentObserver mSettingObserver = new ContentObserver(mHandler) {
         @Override
         public void onChange(boolean selfChange) {
@@ -118,16 +116,6 @@ public class Smart5gService extends SystemService {
                         dlog("dds changed, new: " + subId);
                         update();
                     }
-                    break;
-                case Intent.ACTION_SCREEN_OFF:
-                    mIsScreenOff = true;
-                    dlog("screen turned off");
-                    update();
-                    break;
-                case Intent.ACTION_SCREEN_ON:
-                    mIsScreenOff = false;
-                    dlog("screen turned on");
-                    update();
                     break;
                 case Intent.ACTION_BATTERY_CHANGED:
                     update();
@@ -284,9 +272,6 @@ public class Smart5gService extends SystemService {
             return false;
         } else if (!isMobileDataEnabled(subId)) {
             dlog("shouldDisable5g: mobile data is disabled for subId " + subId);
-            return true;
-        } else if (mIsScreenOff) {
-            dlog("shouldDisable5g: screen is off");
             return true;
         } else if (isConservativeMode() && isLowSignal(subId)) {
             dlog("shouldDisable5g: conservative mode with low signal");
