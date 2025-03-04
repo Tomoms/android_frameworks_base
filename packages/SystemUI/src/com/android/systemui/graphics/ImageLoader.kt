@@ -24,6 +24,7 @@ import android.annotation.WorkerThread
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.Resources
+import android.content.res.Resources.NotFoundException
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.graphics.drawable.AdaptiveIconDrawable
@@ -51,7 +52,7 @@ class ImageLoader
 @Inject
 constructor(
     @Application private val defaultContext: Context,
-    @Background private val backgroundDispatcher: CoroutineDispatcher
+    @Background private val backgroundDispatcher: CoroutineDispatcher,
 ) {
 
     /** Source of the image data. */
@@ -100,7 +101,7 @@ constructor(
         source: Source,
         @Px maxWidth: Int = DEFAULT_MAX_SAFE_BITMAP_SIZE_PX,
         @Px maxHeight: Int = DEFAULT_MAX_SAFE_BITMAP_SIZE_PX,
-        allocator: Int = ImageDecoder.ALLOCATOR_DEFAULT
+        allocator: Int = ImageDecoder.ALLOCATOR_DEFAULT,
     ): Bitmap? =
         withContext(backgroundDispatcher) { loadBitmapSync(source, maxWidth, maxHeight, allocator) }
 
@@ -124,16 +125,19 @@ constructor(
         source: Source,
         @Px maxWidth: Int = DEFAULT_MAX_SAFE_BITMAP_SIZE_PX,
         @Px maxHeight: Int = DEFAULT_MAX_SAFE_BITMAP_SIZE_PX,
-        allocator: Int = ImageDecoder.ALLOCATOR_DEFAULT
+        allocator: Int = ImageDecoder.ALLOCATOR_DEFAULT,
     ): Bitmap? {
-        return runCatching {
+        return try {
             loadBitmapSync(
                 toImageDecoderSource(source, defaultContext),
                 maxWidth,
                 maxHeight,
-                allocator
+                allocator,
             )
-        }.getOrNull()
+        } catch (e: NotFoundException) {
+            Log.w(TAG, "Couldn't load resource $source", e)
+            null
+        }
     }
 
     /**
@@ -156,15 +160,20 @@ constructor(
         source: ImageDecoder.Source,
         @Px maxWidth: Int = DEFAULT_MAX_SAFE_BITMAP_SIZE_PX,
         @Px maxHeight: Int = DEFAULT_MAX_SAFE_BITMAP_SIZE_PX,
-        allocator: Int = ImageDecoder.ALLOCATOR_DEFAULT
+        allocator: Int = ImageDecoder.ALLOCATOR_DEFAULT,
     ): Bitmap? =
         traceSection("ImageLoader#loadBitmap") {
-            return runCatching {
+            return try {
                 ImageDecoder.decodeBitmap(source) { decoder, info, _ ->
                     configureDecoderForMaximumSize(decoder, info.size, maxWidth, maxHeight)
                     decoder.allocator = allocator
                 }
-            }.getOrNull()
+            } catch (e: Exception) {
+                // If we're loading an Uri, we can receive any exception from the other side.
+                // So we have to catch them all.
+                Log.w(TAG, "Failed to load source $source", e)
+                return null
+            }
         }
 
     /**
@@ -187,7 +196,7 @@ constructor(
         source: Source,
         @Px maxWidth: Int = DEFAULT_MAX_SAFE_BITMAP_SIZE_PX,
         @Px maxHeight: Int = DEFAULT_MAX_SAFE_BITMAP_SIZE_PX,
-        allocator: Int = ImageDecoder.ALLOCATOR_DEFAULT
+        allocator: Int = ImageDecoder.ALLOCATOR_DEFAULT,
     ): Drawable? =
         withContext(backgroundDispatcher) {
             loadDrawableSync(source, maxWidth, maxHeight, allocator)
@@ -215,7 +224,7 @@ constructor(
         context: Context = defaultContext,
         @Px maxWidth: Int = DEFAULT_MAX_SAFE_BITMAP_SIZE_PX,
         @Px maxHeight: Int = DEFAULT_MAX_SAFE_BITMAP_SIZE_PX,
-        allocator: Int = ImageDecoder.ALLOCATOR_DEFAULT
+        allocator: Int = ImageDecoder.ALLOCATOR_DEFAULT,
     ): Drawable? =
         withContext(backgroundDispatcher) {
             loadDrawableSync(icon, context, maxWidth, maxHeight, allocator)
@@ -242,15 +251,15 @@ constructor(
         source: Source,
         @Px maxWidth: Int = DEFAULT_MAX_SAFE_BITMAP_SIZE_PX,
         @Px maxHeight: Int = DEFAULT_MAX_SAFE_BITMAP_SIZE_PX,
-        allocator: Int = ImageDecoder.ALLOCATOR_DEFAULT
+        allocator: Int = ImageDecoder.ALLOCATOR_DEFAULT,
     ): Drawable? =
         traceSection("ImageLoader#loadDrawable") {
-            return runCatching {
+            return try {
                 loadDrawableSync(
                     toImageDecoderSource(source, defaultContext),
                     maxWidth,
                     maxHeight,
-                    allocator
+                    allocator,
                 )
                     ?:
                     // If we have a resource, retry fallback using the "normal" Resource loading
@@ -263,7 +272,10 @@ constructor(
                     } else {
                         null
                     }
-            }.getOrNull()
+            } catch (e: NotFoundException) {
+                Log.w(TAG, "Couldn't load resource $source", e)
+                null
+            }
         }
 
     /**
@@ -286,15 +298,20 @@ constructor(
         source: ImageDecoder.Source,
         @Px maxWidth: Int = DEFAULT_MAX_SAFE_BITMAP_SIZE_PX,
         @Px maxHeight: Int = DEFAULT_MAX_SAFE_BITMAP_SIZE_PX,
-        allocator: Int = ImageDecoder.ALLOCATOR_DEFAULT
+        allocator: Int = ImageDecoder.ALLOCATOR_DEFAULT,
     ): Drawable? =
         traceSection("ImageLoader#loadDrawable") {
-            return runCatching {
+            return try {
                 ImageDecoder.decodeDrawable(source) { decoder, info, _ ->
                     configureDecoderForMaximumSize(decoder, info.size, maxWidth, maxHeight)
                     decoder.allocator = allocator
                 }
-            }.getOrNull()
+            } catch (e: Exception) {
+                // If we're loading from an Uri, any exception can happen on the
+                // other side. We have to catch them all.
+                Log.w(TAG, "Failed to load source $source", e)
+                return null
+            }
         }
 
     /** Loads icon drawable while attempting to size restrict the drawable. */
@@ -304,7 +321,7 @@ constructor(
         context: Context = defaultContext,
         @Px maxWidth: Int = DEFAULT_MAX_SAFE_BITMAP_SIZE_PX,
         @Px maxHeight: Int = DEFAULT_MAX_SAFE_BITMAP_SIZE_PX,
-        allocator: Int = ImageDecoder.ALLOCATOR_DEFAULT
+        allocator: Int = ImageDecoder.ALLOCATOR_DEFAULT,
     ): Drawable? =
         traceSection("ImageLoader#loadDrawable") {
             return when (icon.type) {
@@ -320,7 +337,7 @@ constructor(
                             ImageDecoder.createSource(it, icon.resId),
                             maxWidth,
                             maxHeight,
-                            allocator
+                            allocator,
                         )
                     }
                         // Fallback to non-ImageDecoder load if the attempt failed (e.g. the
@@ -339,7 +356,7 @@ constructor(
                         ImageDecoder.createSource(icon.dataBytes, icon.dataOffset, icon.dataLength),
                         maxWidth,
                         maxHeight,
-                        allocator
+                        allocator,
                     )
                 }
                 else -> {
@@ -398,9 +415,13 @@ constructor(
      */
     @WorkerThread
     fun loadSizeSync(source: ImageDecoder.Source): Size? {
-        return runCatching {
+        return try {
             ImageDecoder.decodeHeader(source).size
-        }.getOrNull()
+        } catch (e: Exception) {
+            // Any exception can happen when loading Uris, so we have to catch them all.
+            Log.w(TAG, "Failed to load source $source", e)
+            return null
+        }
     }
 
     companion object {
@@ -445,7 +466,7 @@ constructor(
             decoder: ImageDecoder,
             imgSize: Size,
             @Px maxWidth: Int,
-            @Px maxHeight: Int
+            @Px maxHeight: Int,
         ) {
             if (maxWidth == DO_NOT_RESIZE && maxHeight == DO_NOT_RESIZE) {
                 return
@@ -520,7 +541,7 @@ constructor(
                     pm.getApplicationInfo(
                         resPackage,
                         PackageManager.MATCH_UNINSTALLED_PACKAGES or
-                            PackageManager.GET_SHARED_LIBRARY_FILES
+                            PackageManager.GET_SHARED_LIBRARY_FILES,
                     )
                 if (ai != null) {
                     return pm.getResourcesForApplication(ai)
