@@ -60,8 +60,6 @@ public class PropImitationHooks {
     private static final ComponentName GMS_ADD_ACCOUNT_ACTIVITY = ComponentName.unflattenFromString(
             "com.google.android.gms/.auth.uiflows.minutemaid.MinuteMaidActivity");
 
-    private static final String FEATURE_NEXUS_PRELOAD =
-            "com.google.android.apps.photos.NEXUS_PRELOAD";
 
     private static final Map<String, String> sPixelOneProps = Map.of(
         "PRODUCT", "sailfish",
@@ -72,28 +70,36 @@ public class PropImitationHooks {
         "FINGERPRINT", "google/sailfish/sailfish:10/QP1A.191005.007.A3/5972272:user/release-keys"
     );
 
+    private static final Set<String> sNexusFeatures = Set.of(
+            "NEXUS_PRELOAD",
+            "nexus_preload",
+            "GOOGLE_BUILD",
+            "GOOGLE_EXPERIENCE",
+            "PIXEL_EXPERIENCE"
+    );
+
     private static final Set<String> sPixelFeatures = Set.of(
-        "PIXEL_2017_EXPERIENCE",
-        "PIXEL_2017_PRELOAD",
-        "PIXEL_2018_EXPERIENCE",
-        "PIXEL_2018_PRELOAD",
-        "PIXEL_2019_EXPERIENCE",
-        "PIXEL_2019_MIDYEAR_EXPERIENCE",
-        "PIXEL_2019_MIDYEAR_PRELOAD",
-        "PIXEL_2019_PRELOAD",
-        "PIXEL_2020_EXPERIENCE",
-        "PIXEL_2020_MIDYEAR_EXPERIENCE",
-        "PIXEL_2021_MIDYEAR_EXPERIENCE"
+            "PIXEL_2017_EXPERIENCE",
+            "PIXEL_2017_PRELOAD",
+            "PIXEL_2018_EXPERIENCE",
+            "PIXEL_2018_PRELOAD",
+            "PIXEL_2019_EXPERIENCE",
+            "PIXEL_2019_MIDYEAR_EXPERIENCE",
+            "PIXEL_2019_MIDYEAR_PRELOAD",
+            "PIXEL_2019_PRELOAD",
+            "PIXEL_2020_EXPERIENCE",
+            "PIXEL_2020_MIDYEAR_EXPERIENCE",
+            "PIXEL_2021_MIDYEAR_EXPERIENCE"
     );
 
     private static final Set<String> sTensorFeatures = Set.of(
-        "PIXEL_2021_EXPERIENCE",
-        "PIXEL_2022_EXPERIENCE",
-        "PIXEL_2022_MIDYEAR_EXPERIENCE",
-        "PIXEL_2023_EXPERIENCE",
-        "PIXEL_2023_MIDYEAR_EXPERIENCE",
-        "PIXEL_2024_EXPERIENCE",
-        "PIXEL_2024_MIDYEAR_EXPERIENCE"
+            "PIXEL_2021_EXPERIENCE",
+            "PIXEL_2022_EXPERIENCE",
+            "PIXEL_2022_MIDYEAR_EXPERIENCE",
+            "PIXEL_2023_EXPERIENCE",
+            "PIXEL_2023_MIDYEAR_EXPERIENCE",
+            "PIXEL_2024_EXPERIENCE",
+            "PIXEL_2024_MIDYEAR_EXPERIENCE"
     );
 
     private static volatile String[] sCertifiedProps;
@@ -254,7 +260,7 @@ public class PropImitationHooks {
                     || sTensorFeatures.stream().anyMatch(name::contains))) {
                 dlog("Blocked system feature " + name + " for Google Photos");
                 has = false;
-            } else if (!has && name.equalsIgnoreCase(FEATURE_NEXUS_PRELOAD)) {
+            } else if (!has && sNexusFeatures.stream().anyMatch(name::contains)) {
                 dlog("Enabled system feature " + name + " for Google Photos");
                 has = true;
             }
