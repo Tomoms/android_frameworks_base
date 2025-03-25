@@ -7290,6 +7290,11 @@ public final class Settings {
      * or by calling the "put" methods that this class contains.
      */
     public static final class Secure extends NameValueTable {
+        /** @hide */
+        public static final String CROSS_PROFILE_CLIPBOARD_ACCESS = "cross_profile_clipboard_access";
+
+        // ExtSettings END
+
         // NOTE: If you add new settings here, be sure to add them to
         // com.android.providers.settings.SettingsProtoDumpUtil#dumpProtoSecureSettingsLocked.
 
