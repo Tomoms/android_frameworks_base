@@ -1043,4 +1043,7 @@ interface IActivityManager {
      *  Should disable touch if three fingers to screen shot is active?
      */
     boolean isSwipeToScreenshotGestureActive();
+
+    void loadProcessMemory(in String packageName);
+    void releaseMemory(int minAdj, int maxKillCount, boolean includeUIProcesses, boolean skipCamera);
 }
