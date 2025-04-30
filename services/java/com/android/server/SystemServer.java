@@ -321,7 +321,11 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TreeSet;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Entry point to {@code system_server}.
@@ -608,6 +612,39 @@ public final class SystemServer implements Dumpable {
         } catch (IOException ex) {
             Slog.e("System", "Failed to dump fdtrack hprof", ex);
         }
+    }
+
+    /**
+     * Spawn a thread that monitors and cleans fd leaks.
+     */
+    private static void spawnFdCleaner() {
+        final int enableThreshold = SystemProperties.getInt(SYSPROP_FDTRACK_ENABLE_THRESHOLD, 1600);
+        final int checkInterval = SystemProperties.getInt(SYSPROP_FDTRACK_INTERVAL, 120);
+
+        ThreadFactory daemonThreadFactory = runnable -> {
+            Thread t = new Thread(runnable);
+            t.setDaemon(true);
+            t.setName("FdCleanerThread");
+            return t;
+        };
+
+        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor(daemonThreadFactory);
+
+        Runnable fdCleanerTask = () -> {
+            try {
+                int maxFd = getMaxFd();
+                if (maxFd > enableThreshold) {
+                    System.gc();
+                    System.runFinalization();
+                    System.gc();
+                    maxFd = getMaxFd();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        };
+
+        scheduler.scheduleWithFixedDelay(fdCleanerTask, 0, checkInterval, TimeUnit.SECONDS);
     }
 
     /**
@@ -898,6 +935,8 @@ public final class SystemServer implements Dumpable {
             if (Build.IS_ENG) {
                 spawnFdLeakCheckThread();
             }
+            
+            spawnFdCleaner();
 
             // Check whether we failed to shut down last time we tried.
             // This call may not return.
