@@ -191,6 +191,9 @@ static constexpr int PROCESS_PRIORITY_MIN = 19;
 /** The numeric value for the normal priority a process should have. */
 static constexpr int PROCESS_PRIORITY_DEFAULT = 0;
 
+static constexpr struct sched_param fork_param_max = { .sched_priority = 99 };
+static constexpr struct sched_param fork_param_min = { .sched_priority = 0 };
+
 /** Exponential back off parameters for storage dir check. */
 static constexpr unsigned int STORAGE_DIR_CHECK_RETRY_MULTIPLIER = 2;
 static constexpr unsigned int STORAGE_DIR_CHECK_INIT_INTERVAL_US = 50;
@@ -2180,6 +2183,7 @@ static void SpecializeCommon(JNIEnv* env, uid_t uid, gid_t gid, jintArray gids, 
                               is_system_server, is_child_zygote, managed_instruction_set);
 
     // Reset the process priority to the default value.
+    sched_setscheduler(0, SCHED_OTHER, &fork_param_min);
     setpriority(PRIO_PROCESS, 0, PROCESS_PRIORITY_DEFAULT);
 
     if (env->ExceptionCheck()) {
@@ -2431,6 +2435,7 @@ pid_t zygote::ForkCommon(JNIEnv* env, bool is_system_server,
   ATRACE_CALL();
   if (is_priority_fork) {
     setpriority(PRIO_PROCESS, 0, PROCESS_PRIORITY_MAX);
+    sched_setscheduler(0, SCHED_FIFO, &fork_param_max);
   }
 
   SetSignalHandlers();
@@ -2482,7 +2487,9 @@ pid_t zygote::ForkCommon(JNIEnv* env, bool is_system_server,
   if (pid == 0) {
     if (is_priority_fork) {
       setpriority(PRIO_PROCESS, 0, PROCESS_PRIORITY_MAX);
+      sched_setscheduler(0, SCHED_FIFO, &fork_param_max);
     } else {
+      sched_setscheduler(0, SCHED_OTHER, &fork_param_min);
       setpriority(PRIO_PROCESS, 0, PROCESS_PRIORITY_MIN);
     }
 
@@ -2519,6 +2526,7 @@ pid_t zygote::ForkCommon(JNIEnv* env, bool is_system_server,
   UnblockSignal(SIGCHLD, fail_fn);
 
   if (is_priority_fork && pid != 0) {
+    sched_setscheduler(0, SCHED_OTHER, &fork_param_min);
     setpriority(PRIO_PROCESS, 0, PROCESS_PRIORITY_DEFAULT);
   }
 
@@ -2939,6 +2947,7 @@ static void com_android_internal_os_Zygote_nativeUnblockSigTerm(JNIEnv* env, jcl
 
 static void com_android_internal_os_Zygote_nativeBoostUsapPriority(JNIEnv* env, jclass) {
   setpriority(PRIO_PROCESS, 0, PROCESS_PRIORITY_MAX);
+  sched_setscheduler(0, SCHED_FIFO, &fork_param_max);
 }
 
 static jint com_android_internal_os_Zygote_nativeParseSigChld(JNIEnv* env, jclass, jbyteArray in,
