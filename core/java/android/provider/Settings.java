@@ -14450,6 +14450,10 @@ public final class Settings {
         @Protected(readWrite = KnownSystemPackage.SETTINGS)
         public static final String SHOW_SYSTEM_PROCESS_CRASH_NOTIFICATIONS = "show_system_process_crash_notifs";
 
+        @Protected(restrictReads = false, readWrite = {KnownSystemPackage.SETTINGS,
+                KnownSystemPackage.SETUP_WIZARD})
+        public static final String GEOCODER = "geocoder";
+
         // ExtSettings END
 
         // NOTE: If you add new settings here, be sure to add them to
