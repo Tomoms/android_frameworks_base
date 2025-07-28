@@ -3746,7 +3746,7 @@
     <item name="config_lowResTaskSnapshotScale" format="float" type="dimen">0.5</item>
 
     <!-- Feature flag to store TaskSnapshot in 16 bit pixel format to save memory. -->
-    <bool name="config_use16BitTaskSnapshotPixelFormat">false</bool>
+    <bool name="config_use16BitTaskSnapshotPixelFormat">true</bool>
 
     <!-- The amount to scale fullscreen activity snapshot for predict-back animation. -->
     <item name="config_resActivitySnapshotScale" format="float" type="dimen">0.6</item>
