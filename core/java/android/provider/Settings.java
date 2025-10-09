@@ -6769,6 +6769,12 @@ public final class Settings {
         public static final String ONGOING_CHIP_COLOR_MODE = "ongoing_chip_color_mode";
 
         /**
+         * Use dynamic color based on battery level
+         * @hide
+         */
+        public static final String WIRELESS_CHARGING_DYNAMIC_COLOR = "wireless_charging_dynamic_color";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
