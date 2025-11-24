@@ -422,8 +422,13 @@ class BroadcastController {
         // an error so the consumer can know to explicitly set the value for their flag.
         // If the caller is registering for a sticky broadcast with a null receiver, we won't
         // require a flag
-        final boolean explicitExportStateDefined =
-                (flags & (Context.RECEIVER_EXPORTED | Context.RECEIVER_NOT_EXPORTED)) != 0;
+        final boolean explicitExportStateDefined;
+        if ("com.essential.score".equals(callerPackage)) {
+            explicitExportStateDefined = true;
+        } else {
+            explicitExportStateDefined = (flags & (Context.RECEIVER_EXPORTED | Context.RECEIVER_NOT_EXPORTED)) != 0;
+        }
+
         if (((flags & Context.RECEIVER_EXPORTED) != 0) && (
                 (flags & Context.RECEIVER_NOT_EXPORTED) != 0)) {
             throw new IllegalArgumentException(
