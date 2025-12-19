@@ -1993,6 +1993,8 @@ UnflaggedApi: android.companion.virtual.VirtualDeviceManager.VirtualDevice#getPe
     New API must be flagged with @FlaggedApi: method android.companion.virtual.VirtualDeviceManager.VirtualDevice.getPersistentDeviceId()
 UnflaggedApi: android.content.Context#THREAD_NETWORK_SERVICE:
     New API must be flagged with @FlaggedApi: field android.content.Context.THREAD_NETWORK_SERVICE
+UnflaggedApi: android.content.Context#getUser():
+    New API must be flagged with @FlaggedApi: method android.content.Context.getUser()
 UnflaggedApi: android.content.Intent#ACTION_UNARCHIVE_PACKAGE:
     New API must be flagged with @FlaggedApi: field android.content.Intent.ACTION_UNARCHIVE_PACKAGE
 UnflaggedApi: android.content.pm.PackageInstaller#readInstallInfo(android.os.ParcelFileDescriptor, String, int):
@@ -2031,6 +2033,10 @@ UnflaggedApi: android.nfc.cardemulation.NfcFServiceInfo#CONTENTS_FILE_DESCRIPTOR
     New API must be flagged with @FlaggedApi: field android.nfc.cardemulation.NfcFServiceInfo.CONTENTS_FILE_DESCRIPTOR
 UnflaggedApi: android.nfc.cardemulation.NfcFServiceInfo#PARCELABLE_WRITE_RETURN_VALUE:
     New API must be flagged with @FlaggedApi: field android.nfc.cardemulation.NfcFServiceInfo.PARCELABLE_WRITE_RETURN_VALUE
+UnflaggedApi: android.os.BaseBundle#getBoolean2(String):
+    New API must be flagged with @FlaggedApi: method android.os.BaseBundle.getBoolean2(String)
+UnflaggedApi: android.os.BaseBundle#getNumber(String):
+    New API must be flagged with @FlaggedApi: method android.os.BaseBundle.getNumber(String)
 UnflaggedApi: android.os.BugreportParams#BUGREPORT_MODE_ONBOARDING:
     New API must be flagged with @FlaggedApi: field android.os.BugreportParams.BUGREPORT_MODE_ONBOARDING
 UnflaggedApi: android.provider.Settings#ACTION_APP_PERMISSIONS_SETTINGS:
