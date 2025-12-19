@@ -72,6 +72,7 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver {
     protected static final int BATTERY_STYLE_PORTRAIT = 0;
     protected static final int BATTERY_STYLE_CIRCLE = 1;
     protected static final int BATTERY_STYLE_TEXT = 2;
+    protected static final int BATTERY_STYLE_DOTTED_CIRCLE = 3;
 
     @Retention(SOURCE)
     @IntDef({MODE_DEFAULT, MODE_ON, MODE_OFF, MODE_ESTIMATE})
@@ -97,6 +98,7 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver {
     private boolean mIsIncompatibleCharging;
     // Error state where we know nothing about the current battery state
     private boolean mBatteryStateUnknown;
+    private boolean mBatteryStateAlert;
     // Lazily-loaded since this is expected to be a rare-if-ever state
     private Drawable mUnknownStateDrawable;
 
@@ -648,6 +650,17 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver {
         updateShowPercent();
     }
 
+    void onBatteryAlertStateChanged(boolean isAlert) {
+        if (mBatteryStateAlert == isAlert) {
+            return;
+        }
+
+        mBatteryStateAlert = isAlert;
+        if (!newStatusBarIcons()) {
+            mAccessorizedDrawable.setAlertEnabled(isAlert);
+        }
+    }
+
     void scaleBatteryMeterViews() {
         if (!newStatusBarIcons()) {
             scaleBatteryMeterViewsLegacy();
@@ -688,7 +701,9 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver {
         float iconScaleFactor = typedValue.getFloat();
 
         int batteryHeight = res.getDimensionPixelSize(R.dimen.status_bar_battery_icon_height);
-        int batteryWidth = getBatteryStyle() == BATTERY_STYLE_CIRCLE ?
+        int batteryWidth =
+                (getBatteryStyle() == BATTERY_STYLE_CIRCLE
+                        || getBatteryStyle() == BATTERY_STYLE_DOTTED_CIRCLE) ?
                 res.getDimensionPixelSize(R.dimen.status_bar_battery_icon_circle_width) :
                 res.getDimensionPixelSize(R.dimen.status_bar_battery_icon_width);
         float mainBatteryHeight = batteryHeight * iconScaleFactor;
@@ -733,6 +748,8 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver {
                 mBatteryIconView.setVisibility(View.VISIBLE);
                 break;
             case BATTERY_STYLE_CIRCLE:
+            case BATTERY_STYLE_DOTTED_CIRCLE:
+                mCircleDrawable.setUsePathEffect(getBatteryStyle() == BATTERY_STYLE_DOTTED_CIRCLE);
                 mBatteryIconView.setImageDrawable(mCircleDrawable);
                 mBatteryIconView.setVisibility(View.VISIBLE);
                 break;
@@ -842,6 +859,7 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver {
         pw.println("    mBatteryStateUnknown: " + mBatteryStateUnknown);
         pw.println("    mIsIncompatibleCharging: " + mIsIncompatibleCharging);
         pw.println("    mPluggedIn: " + mPluggedIn);
+        pw.println("    mBatteryStateAlert: " + mBatteryStateAlert);
         pw.println("    mLevel: " + mLevel);
         pw.println("    mMode: " + mShowPercentMode);
         if (newStatusBarIcons()) {
