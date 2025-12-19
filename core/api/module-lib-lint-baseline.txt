@@ -1785,5 +1785,9 @@ UnflaggedApi: android.net.NetworkPolicyManager.AllowedTransportsCallback#onUidsA
     New API must be flagged with @FlaggedApi: method android.net.NetworkPolicyManager.AllowedTransportsCallback.onUidsAllowedTransportsChanged(int[],long[])
 UnflaggedApi: android.os.IpcDataCache#MODULE_TELEPHONY:
     New API must be flagged with @FlaggedApi: field android.os.IpcDataCache.MODULE_TELEPHONY
+UnflaggedApi: android.os.UserHandle#getUid(int, int):
+    New API must be flagged with @FlaggedApi: method android.os.UserHandle.getUid(int,int)
+UnflaggedApi: android.os.UserHandle#getUserId(int):
+    New API must be flagged with @FlaggedApi: method android.os.UserHandle.getUserId(int)
 UnflaggedApi: android.provider.Settings.Config#getAllStrings():
     New API must be flagged with @FlaggedApi: method android.provider.Settings.Config.getAllStrings()
