@@ -30,6 +30,8 @@ public class PackageManagerHooks {
     @Nullable
     public static Integer maybeOverrideSystemPackageEnabledSetting(String pkgName, @UserIdInt int userId) {
         switch (pkgName) {
+            case PackageId.SYSTEM_KEYBOARD:
+                return PackageManager.COMPONENT_ENABLED_STATE_DEFAULT;
             default:
                 return null;
         }
