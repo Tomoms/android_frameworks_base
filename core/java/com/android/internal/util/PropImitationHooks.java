@@ -243,14 +243,14 @@ public class PropImitationHooks {
 
     public static void onEngineGetCertificateChain() {
         if (sDisableKeyAttestationBlock) {
-            dlog("Key attestation blocking is disabled by user");
+            dlog("Key attestation blocking disabled");
             return;
         }
 
         // Check stack for SafetyNet or Play Integrity
         if (isCallerSafetyNet() || sIsFinsky) {
-            dlog("Blocked key attestation sIsGms=" + sIsGms + " sIsFinsky=" + sIsFinsky);
-            throw new UnsupportedOperationException();
+            dlog("Allowing certificate chain for Integrity/SafetyNet");
+            return;
         }
     }
 
