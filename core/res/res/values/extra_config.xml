@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Keybox configuration for device certification -->
-    <string-array name="config_certifiedKeybox" translatable="false">
+    <string-array name="config_validKbx" translatable="false">
       <!--
         Keybox entries for EC and RSA keys and certificates.
         These should be populated with valid data for device certification.
