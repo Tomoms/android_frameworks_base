@@ -258,9 +258,6 @@ final class DisplayWhiteBalanceTintController extends ColorTemperatureTintContro
                 computeMatrixForCctLocked(cct);
             }
 
-            Slog.d(ColorDisplayService.TAG, "computeDisplayWhiteBalanceMatrix: cct =" + cct
-                    + " matrix =" + matrixToString(mMatrixDisplayWhiteBalance, 16));
-
             return mMatrixDisplayWhiteBalance;
         }
     }
