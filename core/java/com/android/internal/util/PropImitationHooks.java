@@ -257,19 +257,6 @@ public class PropImitationHooks {
                 .anyMatch(elem -> elem.getClassName().contains("DroidGuard"));
     }
 
-    public static void onEngineGetCertificateChain() {
-        if (sDisableKeyAttestationBlock) {
-            dlog("Key attestation blocking disabled");
-            return;
-        }
-
-        // Check stack for SafetyNet or Play Integrity
-        if (isCallerSafetyNet() || sIsFinsky) {
-            dlog("Allowing certificate chain for Integrity/SafetyNet");
-            return;
-        }
-    }
-
     public static boolean hasSystemFeature(String name, boolean has) {
         if (sIsPhotos) {
             if (has && (sPixelFeatures.stream().anyMatch(name::contains)
