@@ -560,7 +560,7 @@ private fun MusicChip(
     Row(
         modifier = Modifier
             .animateContentSize(animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing))
-            .widthIn(min = 55.dp, max = 85.dp)
+            .widthIn(min = 55.dp, max = 90.dp)
             .padding(start = 4.dp)
             .clip(chipShape)
             .background(bg)
@@ -574,7 +574,7 @@ private fun MusicChip(
             Spacer(Modifier.width(4.dp))
         }
         var chipAtMaxWidth by remember { mutableStateOf(false) }
-        val chipMaxWidthPx = with(androidx.compose.ui.platform.LocalDensity.current) { 85.dp.roundToPx() }
+        val chipMaxWidthPx = with(androidx.compose.ui.platform.LocalDensity.current) { 90.dp.roundToPx() }
         Box(
             if (chipAtMaxWidth)
                 Modifier.fadingEdge(
