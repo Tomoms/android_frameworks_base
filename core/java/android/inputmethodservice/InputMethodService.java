@@ -4517,6 +4517,11 @@ public class InputMethodService extends AbstractInputMethodService {
                 inputContentInfo.setUriToken(uriToken);
             }
 
+            @Override
+            public void onPasteAction(@NonNull IBinder inputConnectionToken) {
+                mPrivOps.onPasteAction(inputConnectionToken);
+            }
+
             /**
              * {@inheritDoc}
              */
