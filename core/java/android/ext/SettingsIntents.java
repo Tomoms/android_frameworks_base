@@ -12,6 +12,7 @@ public class SettingsIntents {
     public static final String APP_HARDENED_MALLOC = "android.settings.OPEN_APP_HARDENED_MALLOC_SETTINGS";
     public static final String APP_MEMORY_DYN_CODE_LOADING = "android.settings.OPEN_APP_MEMORY_DYN_CODE_LOADING_SETTINGS";
     public static final String APP_STORAGE_DYN_CODE_LOADING = "android.settings.OPEN_APP_STORAGE_DYN_CODE_LOADING_SETTINGS";
+    public static final String APP_CLIPBOARD_READ = "android.settings.OPEN_APP_CLIPBOARD_READ_SETTINGS";
 
     public static Intent getAppIntent(Context ctx, String action, String pkgName) {
         var i = new Intent(action);
