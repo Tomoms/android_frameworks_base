@@ -836,7 +836,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
     private boolean mLongSwipeDown;
     private CameraAvailbilityListener mCameraAvailabilityListener;
-    private ScreenshotHelper mScreenshotHelper;
 
     private SwipeToScreenshotListener mSwipeToScreenshot;
     private ScreenshotHelper mScreenshotHelper;
