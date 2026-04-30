@@ -2771,6 +2771,9 @@ public class StatsPullAtomService extends SystemService {
     }
 
     private void registerProcessDmabufMemory() {
+        if (!Build.IS_ENG) {
+            return;
+        }
         int tagId = FrameworkStatsLog.PROCESS_DMABUF_MEMORY;
         mStatsManager.setPullAtomCallback(
                 tagId,
@@ -2781,6 +2784,9 @@ public class StatsPullAtomService extends SystemService {
     }
 
     int pullProcessDmabufMemory(int atomTag, List<StatsEvent> pulledData) {
+        if (!Build.IS_ENG) {
+            return StatsManager.PULL_SKIP;
+        }
         KernelAllocationStats.ProcessDmabuf[] procBufs =
                 KernelAllocationStats.getDmabufAllocations();
 
