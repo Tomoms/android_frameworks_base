@@ -56,17 +56,6 @@ public class AxExtServiceFactory {
         NtServiceInjector.get().setPackageManagerService(pm);
     }
 
-    @SuppressWarnings("unchecked")
-    public static <T> T getOrCreate(IAxExtServiceFactory.ExtType type) {
-        Object instance;
-        switch (type) {
-            default:
-                throw new IllegalArgumentException("Unknown ExtType: " + type);
-        }
-
-        return (T) type.getClazz().cast(instance);
-    }
-
     public static void systemReady() {
     }
     
