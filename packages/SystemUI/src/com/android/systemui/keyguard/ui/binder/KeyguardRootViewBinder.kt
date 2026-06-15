@@ -410,8 +410,7 @@ object KeyguardRootViewBinder {
                     with(movement) {
                         when (child.id) {
                             burnInLayerId, aodPromotedNotificationId,
-                            aodNotificationIconContainerId, sliceViewId,
-                            weatherAreaId, weatherAreaInlineId, dateViewId -> {
+                            aodNotificationIconContainerId, sliceViewId -> {
                                 child.translationY = translationY.toFloat()
                                 child.translationX = translationX.toFloat()
                             }
