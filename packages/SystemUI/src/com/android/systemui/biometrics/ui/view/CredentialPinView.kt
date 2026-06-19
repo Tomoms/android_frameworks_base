@@ -82,7 +82,7 @@ fun CredentialPinView(
                 .onPreviewKeyEvent { event ->
                     val digit = event.getDigitClicked()
                     if (digit != null) {
-                        if (pinText.length < 16) {
+                        if (pinText.length < android.app.admin.DevicePolicyManager.MAX_PASSWORD_LENGTH) {
                             view.notifyPinTextChanged(
                                 accessibilityManager = accessibilityManager,
                                 previousLength = pinText.length,
@@ -128,7 +128,7 @@ fun CredentialPinView(
 
         CredentialPinPad(
             onDigitClick = { digit ->
-                if (pinText.length < 16) {
+                if (pinText.length < android.app.admin.DevicePolicyManager.MAX_PASSWORD_LENGTH) {
                     view.notifyPinTextChanged(
                         accessibilityManager = accessibilityManager,
                         previousLength = pinText.length,
