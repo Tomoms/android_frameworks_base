@@ -95,5 +95,7 @@
         <public name="notif_hmalloc_crash_title"/>
         <!-- @hide -->
         <public name="deprecated_abi_message_grapheneos"/>
+        <!-- @hide -->
+        <public name="clipboard_access_blocked"/>
     </staging-public-group>
 </resources>
