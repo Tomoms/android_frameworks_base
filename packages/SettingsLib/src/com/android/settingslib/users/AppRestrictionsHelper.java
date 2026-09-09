@@ -310,6 +310,7 @@ public class AppRestrictionsHelper {
                     // System app
                     // Skip excluded packages
                     if (excludePackages.contains(packageName)) continue;
+		    if ("com.android.privatespace".equals(packageName)) continue;
                     int enabled = pm.getApplicationEnabledSetting(packageName);
                     if (enabled == PackageManager.COMPONENT_ENABLED_STATE_DISABLED_UNTIL_USED
                             || enabled == PackageManager.COMPONENT_ENABLED_STATE_DISABLED) {
