@@ -36,6 +36,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
+import com.android.settingslib.development.DevelopmentSettingsEnabler
 import com.android.settingslib.spa.framework.compose.rememberDrawablePainter
 import com.android.settingslib.spa.framework.theme.SettingsDimension
 import com.android.settingslib.spa.framework.theme.isSpaExpressiveEnabled
@@ -118,15 +119,17 @@ class AppInfoProvider(private val packageInfo: PackageInfo) {
     }
 
     @Composable
-    fun FooterAppVersion() {
+    fun FooterAppVersion(showPackageName: Boolean = rememberIsDevelopmentSettingsEnabled()) {
         val context = LocalContext.current
         val footer =
-            remember(packageInfo) {
+            remember(packageInfo, showPackageName) {
                 val list = mutableListOf<String>()
                 packageInfo.versionNameBidiWrapped?.let {
                     list += context.getString(R.string.version_text, it)
                 }
-                list += packageInfo.packageName
+                if (showPackageName) {
+                    list += packageInfo.packageName
+                }
                 list.joinToString(separator = System.lineSeparator())
             }
         if (footer.isBlank()) return
@@ -134,6 +137,12 @@ class AppInfoProvider(private val packageInfo: PackageInfo) {
         Box(modifier = Modifier.padding(SettingsDimension.footerPadding)) {
             CopyableBody(footer)
         }
+    }
+
+    @Composable
+    private fun rememberIsDevelopmentSettingsEnabled(): Boolean {
+        val context = LocalContext.current
+        return remember { DevelopmentSettingsEnabler.isDevelopmentSettingsEnabled(context) }
     }
 
     private companion object {
