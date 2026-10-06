@@ -4,6 +4,7 @@
         <item>app.vanadium.browser</item>
         <!-- original-package for Vanadium -->
         <item>org.chromium.chrome</item>
+	<item>org.lineageos.jelly</item>
     </string-array>
     <java-symbol type="array" name="system_browser_package_names" />
 </resources>
