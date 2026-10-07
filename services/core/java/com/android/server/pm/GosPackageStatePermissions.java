@@ -16,7 +16,6 @@ import android.util.EmptyArray;
 import android.util.Slog;
 import android.util.SparseArray;
 
-import com.android.internal.gmscompat.GmsCompatApp;
 import com.android.server.LocalServices;
 
 import java.util.Objects;
@@ -119,10 +118,6 @@ class GosPackageStatePermissions {
                 // in some cases PermissionController handles user profile from profile parent user
                 .crossUserPermission(ALLOW_CROSS_USER_PROFILE_READS)
                 .apply(ksp.permissionController, computer);
-        builder()
-                .readFlags(playIntegrityFlags)
-                .readWriteFlag(SUPPRESS_PLAY_INTEGRITY_API_NOTIF)
-                .apply(GmsCompatApp.PKG_NAME, computer);
 
         @GosPackageStateFlag.Enum int[] settingsReadWriteFlags = {
                 ALLOW_ACCESS_TO_OBB_DIRECTORY,
