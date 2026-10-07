@@ -445,6 +445,14 @@ MissingGetterMatchingBuilder: android.os.RemoteCallbackList.Builder#setInterface
     android.os.RemoteCallbackList does not declare a `getInterfaceDiedCallback()` method matching method android.os.RemoteCallbackList.Builder.setInterfaceDiedCallback(android.os.RemoteCallbackList.Builder.InterfaceDiedCallback<E>)
 
 
+NoSettingsProvider: android.provider.Settings.Global#CERT_TRANSPARENCY_DOWNLOADER:
+    New setting keys are not allowed (Field: CERT_TRANSPARENCY_DOWNLOADER); use getters/setters in relevant manager class
+NoSettingsProvider: android.provider.Settings.Global#GEOCODER:
+    New setting keys are not allowed (Field: GEOCODER); use getters/setters in relevant manager class
+NoSettingsProvider: android.provider.Settings.Global#WIFI_AUTO_OFF:
+    New setting keys are not allowed (Field: WIFI_AUTO_OFF); use getters/setters in relevant manager class
+
+
 RequiresPermission: android.accounts.AccountManager#addAccount(String, String, String[], android.os.Bundle, android.app.Activity, android.accounts.AccountManagerCallback<android.os.Bundle>, android.os.Handler):
     Method 'addAccount' documentation duplicates auto-generated documentation by @RequiresPermission. If the permissions are only required under certain circumstances use conditional=true to suppress the auto-documentation
 RequiresPermission: android.accounts.AccountManager#addAccountExplicitly(android.accounts.Account, String, android.os.Bundle):
