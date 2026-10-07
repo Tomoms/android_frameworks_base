@@ -56,11 +56,6 @@ public class PackageManagerHooks {
     @Nullable
     public static Bundle getExtraAppBindArgs(Context context, PackageManagerInternal pm,
                                              String packageName, int appUid, int pid) {
-        if (android.os.Flags.isDevBuild()) {
-            Slog.d("AppBindArgs", "obtaining args for pkgName " + packageName
-                    + ", appUid " + appUid + ", pid " + pid);
-        }
-
         // Note that:
         // - app UID differs from process UID for isolated processes
         // - for android:externalService processes (e.g. WebView processes), app UID and package
