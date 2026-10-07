@@ -40138,6 +40138,7 @@ package android.provider {
     field public static final String AUTO_TIME_ZONE = "auto_time_zone";
     field public static final String BLUETOOTH_ON = "bluetooth_on";
     field public static final String BOOT_COUNT = "boot_count";
+    field public static final String CERT_TRANSPARENCY_DOWNLOADER = "cert_transparency_downloader";
     field public static final String CONTACT_METADATA_SYNC_ENABLED = "contact_metadata_sync_enabled";
     field public static final android.net.Uri CONTENT_URI;
     field public static final String DATA_ROAMING = "data_roaming";
@@ -40145,6 +40146,7 @@ package android.provider {
     field public static final String DEVELOPMENT_SETTINGS_ENABLED = "development_settings_enabled";
     field public static final String DEVICE_NAME = "device_name";
     field public static final String DEVICE_PROVISIONED = "device_provisioned";
+    field public static final String GEOCODER = "geocoder";
     field public static final String HTTP_PROXY = "http_proxy";
     field @Deprecated public static final String INSTALL_NON_MARKET_APPS = "install_non_market_apps";
     field public static final String MODE_RINGER = "mode_ringer";
@@ -40160,6 +40162,7 @@ package android.provider {
     field public static final String USB_MASS_STORAGE_ENABLED = "usb_mass_storage_enabled";
     field public static final String USE_GOOGLE_MAIL = "use_google_mail";
     field public static final String WAIT_FOR_DEBUGGER = "wait_for_debugger";
+    field public static final String WIFI_AUTO_OFF = "wifi_off_timeout";
     field public static final String WIFI_DEVICE_OWNER_CONFIGS_LOCKDOWN = "wifi_device_owner_configs_lockdown";
     field public static final String WIFI_MAX_DHCP_RETRY_COUNT = "wifi_max_dhcp_retry_count";
     field public static final String WIFI_MOBILE_DATA_TRANSITION_WAKELOCK_TIMEOUT_MS = "wifi_mobile_data_transition_wakelock_timeout_ms";
