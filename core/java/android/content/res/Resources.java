@@ -501,11 +501,11 @@ public class Resources {
             if (typeface != null) {
                 return typeface;
             }
-        } catch (Exception e) {
         } finally {
             releaseTempTypedValue(value);
         }
-        return Typeface.SANS_SERIF;
+        throw new NotFoundException("Font resource ID #0x"
+                + Integer.toHexString(id));
     }
 
     @NonNull
