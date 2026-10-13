@@ -1453,11 +1453,6 @@ class AppWidgetServiceImpl extends IAppWidgetService.Stub implements WidgetBacku
         // Make sure the package runs under the caller uid.
         mSecurityPolicy.enforceCallFromPackage(callingPackage);
 
-        if (!isUserRunningAndUnlocked(userId)) {
-            Slog.w(TAG, "stopListening() should not be called for locked user " + userId);
-            return;
-        }
-
         synchronized (mLock) {
             ensureGroupStateLoadedLocked(userId, /* enforceUserUnlockingOrUnlocked */ false);
 
@@ -1539,11 +1534,6 @@ class AppWidgetServiceImpl extends IAppWidgetService.Stub implements WidgetBacku
         final int userId = UserHandle.getCallingUserId();
 
         mSecurityPolicy.enforceCallFromPackage(callingPackage);
-
-        if (!isUserRunningAndUnlocked(userId)) {
-            Slog.w(TAG, "setAppWidgetHidden() should not be called for locked user " + userId);
-            return;
-        }
 
         synchronized (mLock) {
             ensureGroupStateLoadedLocked(userId, /* enforceUserUnlockingOrUnlocked */false);
@@ -4201,7 +4191,6 @@ class AppWidgetServiceImpl extends IAppWidgetService.Stub implements WidgetBacku
             // provide widgets.
             flags |= PackageManager.MATCH_DEBUG_TRIAGED_MISSING;
 
-            // Match receivers regardless of the user's lock state.
             flags |= PackageManager.MATCH_DIRECT_BOOT_AWARE
                     | PackageManager.MATCH_DIRECT_BOOT_UNAWARE;
 
