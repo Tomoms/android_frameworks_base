@@ -4715,13 +4715,9 @@ public class PackageInstallerSession extends IPackageInstallerSession.Stub {
             boolean isFirstPartyInstaller = firstPartyInstaller.equals(mInstallSource.mInitiatingPackageName);
             if (!isFirstPartyInstaller && mInstallerUid != Process.SHELL_UID) {
                 String debugSysprop = "persist.allow_unknown_system_app_updates";
-                boolean allow = Build.IS_DEBUGGABLE
-                        && SystemProperties.getBoolean(debugSysprop, false);
+                boolean allow = SystemProperties.getBoolean(debugSysprop, false);
                 if (!allow) {
-                    String msg = "System app updates from unknown sources are blocked";
-                    if (Build.IS_DEBUGGABLE) {
-                        msg += ". To unblock them, run setprop persist.allow_unknown_system_app_updates 1";
-                    }
+                    String msg = "System app updates from unknown sources are blocked. To unblock them, run setprop persist.allow_unknown_system_app_updates 1";
                     throw new PackageManagerException(PackageManager.INSTALL_FAILED_SESSION_INVALID, msg);
                 }
             }

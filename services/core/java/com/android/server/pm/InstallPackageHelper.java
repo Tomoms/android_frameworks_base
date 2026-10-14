@@ -2146,14 +2146,12 @@ final class InstallPackageHelper {
             try {
                 PackageVerityExt.checkFsVerity(parsedPackage);
             } catch (PackageManagerException e) {
-                String message = "fs-verity not set up for system package update " + e;
+                String message = "fs-verity not set up for system package update. Run setprop persist.disable_install_time_fsverity_check 1 to bypass. " + e;
                 boolean abortInstall = true;
 
-                if (Build.IS_DEBUGGABLE) {
-                    if (SystemProperties.getBoolean("persist.disable_install_time_fsverity_check", false)) {
-                        Slog.d(TAG, message);
-                        abortInstall = false;
-                    }
+                if (SystemProperties.getBoolean("persist.disable_install_time_fsverity_check", false)) {
+                    Slog.d(TAG, message);
+                    abortInstall = false;
                 }
 
                 if (abortInstall) {
@@ -2162,14 +2160,12 @@ final class InstallPackageHelper {
             }
 
             if (parsedPackage.getLongVersionCode() == systemPackage.getLongVersionCode()) {
-                String message = "Not allowed to update system package to the same versionCode";
+                String message = "Not allowed to update system package to the same versionCode. Run setprop persist.disable_same_versionCode_sys_pkg_update_check 1 to bypass.";
                 boolean abortInstall = true;
 
-                if (Build.IS_DEBUGGABLE) {
-                    if (SystemProperties.getBoolean("persist.disable_same_versionCode_sys_pkg_update_check", false)) {
-                        Slog.d(TAG, message + ": " + parsedPackage.getManifestPackageName());
-                        abortInstall = false;
-                    }
+                if (SystemProperties.getBoolean("persist.disable_same_versionCode_sys_pkg_update_check", false)) {
+                    Slog.d(TAG, message + ": " + parsedPackage.getManifestPackageName());
+                    abortInstall = false;
                 }
                 if (abortInstall) {
                     throw new PrepareFailure(PackageManager.INSTALL_FAILED_INTERNAL_ERROR, message);
