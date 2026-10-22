@@ -42,7 +42,9 @@ import androidx.annotation.VisibleForTesting;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -183,6 +185,8 @@ public class EmergencyNumberUtils {
     }
 
     private List<String> getPromotedEmergencyNumbers() {
+        // Country preferences must see all categories: e.g. the database labels TR 112
+        // ambulance-only, even though it is the country's preferred SOS number.
         Map<Integer, List<EmergencyNumber>> allLists = mTelephonyManager.getEmergencyNumberList();
         if (allLists == null || allLists.isEmpty()) {
             Log.w(TAG, "Unable to retrieve emergency number lists!");
@@ -201,10 +205,13 @@ public class EmergencyNumberUtils {
                 Log.d(TAG, "Number " + number);
             }
 
-            List<EmergencyNumber> ranked = rankEmergencyNumbers(emergencyNumberList);
-            if (!ranked.isEmpty()) {
+            String country = mTelephonyManager.createForSubscriptionId(subId)
+                    .getNetworkCountryIso();
+            List<EmergencyNumber> countryPreferred = rankEmergencyNumbers(
+                    emergencyNumberList, country, subId);
+            if (!countryPreferred.isEmpty()) {
                 promotedEmergencyNumberLists.put(subId,
-                        sanitizeEmergencyNumbers(ranked, subId));
+                        sanitizeEmergencyNumbers(countryPreferred, subId));
             }
         }
 
@@ -215,13 +222,28 @@ public class EmergencyNumberUtils {
     }
 
     private List<EmergencyNumber> rankEmergencyNumbers(
-            List<EmergencyNumber> candidates) {
-        List<EmergencyNumber> preferred = new ArrayList<>(candidates);
-        // Rank by category, then source. Routing is not a ranking/filtering criterion.
+            List<EmergencyNumber> candidates, String country, int subId) {
+        country = country == null ? "" : country.toUpperCase(Locale.ROOT);
+        Set<String> preferences = EmergencyNumberPreferences.getCountryPreferences(country);
+        Set<String> primary = EmergencyNumberPreferences.getPrimaryNumbers(country);
+        String[] prefixes = getCarrierEmergencyNumberPrefixes(mCarrierConfigManager, subId);
+        List<EmergencyNumber> preferred = new ArrayList<>();
+        for (EmergencyNumber candidate : candidates) {
+            if (primary.contains(removePrefix(candidate, prefixes))) {
+                preferred.add(candidate);
+            }
+        }
+        // Restrict to primary candidates only when at least one is present.
+        if (preferred.isEmpty()) {
+            preferred.addAll(candidates);
+        }
+        // Rank by country preference membership, category, then source, including
+        // when no table entry matches. Routing is not a ranking/filtering criterion.
         // Stable sorting preserves input order for ties; never mutate Telephony's list.
         preferred.sort(Comparator
-                .comparingInt((EmergencyNumber number) -> preferenceRank(
-                        number.getEmergencyServiceCategories(),
+                .comparingInt((EmergencyNumber number) ->
+                        preferences.contains(removePrefix(number, prefixes)) ? 0 : 1)
+                .thenComparingInt(number -> preferenceRank(number.getEmergencyServiceCategories(),
                         EMERGENCY_SERVICE_CATEGORY_POLICE, EMERGENCY_SERVICE_CATEGORY_AMBULANCE,
                         EMERGENCY_SERVICE_CATEGORY_FIRE_BRIGADE))
                 .thenComparingInt(number -> preferenceRank(number.getEmergencyNumberSources(),
