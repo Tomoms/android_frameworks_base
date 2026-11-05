@@ -1718,4 +1718,28 @@ public class Environment {
     public static File maybeTranslateEmulatedPathToInternal(File path) {
         return StorageManager.maybeTranslateEmulatedPathToInternal(path);
     }
+
+        /** @hide */
+    @UnsupportedAppUsage
+    public static boolean isExecmemBlocked() {
+        return false;
+    }
+
+    /** @hide */
+    @UnsupportedAppUsage
+    public static boolean isMemoryDclRestricted() {
+        return false;
+    }
+
+    /** @hide */
+    @UnsupportedAppUsage
+    public static boolean isStorageDclRestricted() {
+        return false;
+    }
+
+    /** @hide */
+    @UnsupportedAppUsage
+    public static boolean isWebViewDclRestricted() {
+        return false;
+    }
 }
