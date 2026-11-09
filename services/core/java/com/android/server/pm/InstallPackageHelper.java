@@ -2150,17 +2150,6 @@ final class InstallPackageHelper {
             try {
                 PackageVerityExt.checkFsVerity(parsedPackage);
             } catch (PackageManagerException e) {
-                String message = "fs-verity not set up for system package update. Run setprop persist.disable_install_time_fsverity_check 1 to bypass. " + e;
-                boolean abortInstall = true;
-
-                if (SystemProperties.getBoolean("persist.disable_install_time_fsverity_check", false)) {
-                    Slog.d(TAG, message);
-                    abortInstall = false;
-                }
-
-                if (abortInstall) {
-                    throw new PrepareFailure(PackageManager.INSTALL_FAILED_INTERNAL_ERROR, message);
-                }
             }
 
             if (parsedPackage.getLongVersionCode() == systemPackage.getLongVersionCode()) {
